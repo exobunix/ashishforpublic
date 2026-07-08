@@ -17,12 +17,15 @@ export default function Media() {
   const firstCat = media.categories[0];
 
   // Generate placeholder photo grid based on categories
-  const photos = Array.from({ length: 12 }).map((_, i) => ({
-    id: i,
+  const defaultPhotos = Array.from({ length: 12 }).map((_, i) => ({
+    id: String(i),
     category: media.categories[(i % (media.categories.length - 1)) + 1] || media.categories[1],
     title: `कार्यक्रम की झलकियां ${i + 1}`,
+    url: '',
     color: COLORS[i % COLORS.length],
   }));
+
+  const photos = media.photos && media.photos.length > 0 ? media.photos : defaultPhotos;
 
   const filtered = activeCategory === firstCat
     ? photos
@@ -71,8 +74,18 @@ export default function Media() {
                   transition={{ duration: 0.3 }}
                 >
                   <Card className="overflow-hidden border-none shadow-md group cursor-pointer">
-                    <div className={`aspect-square ${photo.color} relative flex items-center justify-center overflow-hidden`}>
-                      <ImageIcon className="w-12 h-12 text-foreground/20 group-hover:scale-110 transition-transform duration-500" />
+                    <div className="aspect-square bg-muted relative flex items-center justify-center overflow-hidden w-full h-full">
+                      {photo.url ? (
+                        <img
+                          src={photo.url}
+                          alt={photo.title}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                      ) : (
+                        <div className={`w-full h-full ${photo.color || 'bg-primary/20'} flex items-center justify-center`}>
+                          <ImageIcon className="w-12 h-12 text-foreground/20 group-hover:scale-110 transition-transform duration-500" />
+                        </div>
+                      )}
                       <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
                         <span className="text-primary text-sm font-bold">{photo.category}</span>
                         <h4 className="text-white font-medium">{photo.title}</h4>

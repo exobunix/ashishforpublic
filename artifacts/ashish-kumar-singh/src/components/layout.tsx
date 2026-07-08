@@ -55,7 +55,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <div className="container mx-auto px-4 md:px-6 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3 group">
             <div className="w-11 h-11 rounded-full bg-primary flex items-center justify-center text-white overflow-hidden shadow-lg group-hover:scale-105 transition-transform">
-              <LotusIcon />
+              {general.logoUrl ? (
+                <img src={general.logoUrl} alt="Logo" className="w-full h-full object-cover" />
+              ) : (
+                <LotusIcon />
+              )}
             </div>
             <div>
               <h1 className="font-heading font-bold text-xl md:text-2xl text-foreground group-hover:text-primary transition-colors font-hindi">

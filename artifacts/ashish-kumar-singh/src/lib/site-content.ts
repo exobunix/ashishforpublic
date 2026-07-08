@@ -10,12 +10,14 @@ export interface VideoItem { title: string; embedUrl: string; }
 export interface NewsItem { date: string; title: string; source: string; }
 export interface FaqItem { q: string; a: string; }
 export interface CardItem { title: string; desc: string; }
+export interface PhotoItem { id: string; category: string; title: string; url: string; color?: string; }
 
 export interface SiteContent {
   general: {
     siteName: string;
     tagline: string;
     navCtaLabel: string;
+    logoUrl?: string;
   };
   whatsapp: {
     number: string;
@@ -97,6 +99,7 @@ export interface SiteContent {
     heroSubtitle: string;
     categories: string[];
     photoHeading: string;
+    photos?: PhotoItem[];
     videoHeading: string;
     videos: VideoItem[];
     newsHeading: string;
@@ -268,6 +271,7 @@ export const DEFAULT_CONTENT: SiteContent = {
     heroSubtitle: "चित्र, वीडियो और समाचार कवरेज",
     categories: ["सभी", "राजनीतिक", "जनसभाएं", "किसान", "महिला", "सामाजिक कार्य"],
     photoHeading: "फोटो गैलरी",
+    photos: [],
     videoHeading: "वीडियो गैलरी",
     videos: [
       { title: "जनसंपर्क अभियान — छावनी विधानसभा", embedUrl: "" },

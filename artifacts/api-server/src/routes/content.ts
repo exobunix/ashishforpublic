@@ -1,7 +1,9 @@
 import { Router } from "express";
 import { connectToDatabase } from "../lib/mongodb";
+import multer from "multer";
 
 const router = Router();
+const upload = multer({ limits: { fileSize: 10 * 1024 * 1024 } }); // 10MB limit
 
 router.get("/content", async (req, res): Promise<void> => {
   try {
@@ -32,6 +34,47 @@ router.post("/content", async (req, res): Promise<void> => {
     return;
   } catch (error) {
     res.status(500).json({ error: "Failed to save content" });
+    return;
+  }
+});
+
+router.post("/upload", upload.single("file"), async (req, res): Promise<void> => {
+  try {
+    if (!req.file) {
+      res.status(400).json({ error: "No file uploaded" });
+      return;
+    }
+
+    const privateKey = process.env.IMAGEKIT_PRIVATE_KEY || "private_q34ikaQJf2j1Frf6WPMDoDJ+5cU=";
+
+    // Convert to base64 for ImageKit upload API
+    const fileBase64 = req.file.buffer.toString("base64");
+
+    const formData = new FormData();
+    formData.append("file", fileBase64);
+    formData.append("fileName", req.file.originalname);
+
+    const authHeader = "Basic " + Buffer.from(privateKey + ":").toString("base64");
+
+    const ikResponse = await fetch("https://upload.imagekit.io/api/v1/files/upload", {
+      method: "POST",
+      headers: {
+        Authorization: authHeader,
+      },
+      body: formData,
+    });
+
+    if (!ikResponse.ok) {
+      const errorText = await ikResponse.text();
+      res.status(500).json({ error: "Failed to upload to ImageKit", details: errorText });
+      return;
+    }
+
+    const result = (await ikResponse.json()) as { url: string };
+    res.json({ url: result.url });
+    return;
+  } catch (error) {
+    res.status(500).json({ error: "Upload failed", details: String(error) });
     return;
   }
 });
