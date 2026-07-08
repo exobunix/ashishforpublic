@@ -48,19 +48,19 @@ router.post("/upload", upload.single("file"), async (req, res): Promise<void> =>
     const privateKey = process.env.IMAGEKIT_PRIVATE_KEY || "private_q34ikaQJf2j1Frf6WPMDoDJ+5cU=";
 
     // Convert to base64 for ImageKit upload API
-    const fileBase64 = req.file.buffer.toString("base64");
     const authHeader = "Basic " + Buffer.from(privateKey + ":").toString("base64");
+
+    const formData = new FormData();
+    const fileBlob = new Blob([new Uint8Array(req.file.buffer)], { type: req.file.mimetype });
+    formData.append("file", fileBlob, req.file.originalname);
+    formData.append("fileName", req.file.originalname);
 
     const ikResponse = await fetch("https://upload.imagekit.io/api/v1/files/upload", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
         Authorization: authHeader,
       },
-      body: JSON.stringify({
-        file: fileBase64,
-        fileName: req.file.originalname,
-      }),
+      body: formData,
     });
 
     if (!ikResponse.ok) {
