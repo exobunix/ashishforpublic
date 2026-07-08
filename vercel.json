@@ -1,4 +1,5 @@
 {
   "buildCommand": "pnpm --filter @workspace/ashish-kumar-singh build",
-  "outputDirectory": "artifacts/ashish-kumar-singh/dist/public"
+  "outputDirectory": "artifacts/ashish-kumar-singh/dist/public",
+  "framework": "vite"
 }
