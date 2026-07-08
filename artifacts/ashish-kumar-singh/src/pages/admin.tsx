@@ -22,7 +22,7 @@ function ImageUploader({ label, onUploadSuccess, value }: {
     const formData = new FormData();
     formData.append('file', file);
 
-    const API_URL = import.meta.env.VITE_API_URL || '';
+    const API_URL = import.meta.env.VITE_API_URL || 'https://ashishforpublic.onrender.com';
 
     try {
       const res = await fetch(`${API_URL}/api/upload`, {
@@ -54,6 +54,78 @@ function ImageUploader({ label, onUploadSuccess, value }: {
           <input type="file" className="hidden" accept="image/*" onChange={handleUpload} disabled={uploading} />
         </label>
       </div>
+    </div>
+  );
+}
+
+function ImageUploadCard({ onUploadSuccess, categories, defaultCategory }: {
+  onUploadSuccess: (url: string, title: string, category: string) => void;
+  categories: string[];
+  defaultCategory: string;
+}) {
+  const [uploading, setUploading] = useState(false);
+  const [title, setTitle] = useState('');
+  const [category, setCategory] = useState(defaultCategory);
+
+  const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploading(true);
+    const formData = new FormData();
+    formData.append('file', file);
+
+    const API_URL = import.meta.env.VITE_API_URL || 'https://ashishforpublic.onrender.com';
+
+    try {
+      const res = await fetch(`${API_URL}/api/upload`, {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!res.ok) throw new Error('Upload failed');
+      const data = await res.json() as { url: string };
+      onUploadSuccess(data.url, title || 'नई फोटो', category);
+      setTitle('');
+    } catch (err) {
+      console.error(err);
+      alert('Upload failed. Please check your internet connection or server logs.');
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  return (
+    <div className="p-4 border border-dashed border-gray-300 rounded-xl bg-orange-50/50 flex flex-col justify-center items-center gap-3 min-h-[220px] shadow-sm relative group">
+      {uploading ? (
+        <div className="flex flex-col items-center gap-2">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div>
+          <span className="text-xs text-orange-500 font-medium">अपलोड हो रहा है...</span>
+        </div>
+      ) : (
+        <>
+          <input
+            placeholder="नाम दर्ज करें"
+            value={title}
+            onChange={e => setTitle(e.target.value)}
+            className="w-full border border-gray-200 rounded px-2 py-1 text-xs text-center"
+          />
+          <select
+            value={category}
+            onChange={e => setCategory(e.target.value)}
+            className="w-full border border-gray-200 rounded px-2 py-1 text-xs bg-white text-center"
+          >
+            {categories.map(cat => (
+              <option key={cat} value={cat}>{cat}</option>
+            ))}
+          </select>
+          <label className="w-12 h-12 rounded-full bg-orange-500 hover:bg-orange-600 text-white flex items-center justify-center cursor-pointer shadow transition-all duration-300 transform group-hover:scale-105">
+            <span className="text-2xl font-bold">+</span>
+            <input type="file" className="hidden" accept="image/*" onChange={handleUpload} />
+          </label>
+          <span className="text-xs text-gray-500 font-semibold mt-1">नई फोटो जोड़ें</span>
+        </>
+      )}
     </div>
   );
 }
@@ -622,17 +694,17 @@ function MediaSection() {
 
       <div className="mt-6 pt-4 border-t">
         <p className="font-semibold text-gray-700 mb-3">फोटो गैलरी (Photos)</p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-4">
           {form.photos?.map((photo, idx) => (
-            <div key={photo.id} className="p-4 border rounded-xl bg-white flex flex-col gap-2 shadow-sm">
-              <img src={photo.url} alt={photo.title} className="w-full h-32 object-cover rounded" />
+            <div key={photo.id} className="p-4 border rounded-xl bg-white flex flex-col gap-2 shadow-sm min-h-[220px]">
+              <img src={photo.url} alt={photo.title} className="w-full h-24 object-cover rounded" />
               <input
                 value={photo.title}
                 onChange={e => setForm(p => ({
                   ...p,
                   photos: p.photos?.map((ph, i) => i === idx ? { ...ph, title: e.target.value } : ph)
                 }))}
-                className="w-full border border-gray-300 rounded px-2 py-1.5 text-sm"
+                className="w-full border border-gray-200 rounded px-2 py-1 text-xs"
                 placeholder="फोटो का नाम (Rename)"
               />
               <select
@@ -641,7 +713,7 @@ function MediaSection() {
                   ...p,
                   photos: p.photos?.map((ph, i) => i === idx ? { ...ph, category: e.target.value } : ph)
                 }))}
-                className="w-full border border-gray-300 rounded px-2 py-1.5 text-sm bg-white"
+                className="w-full border border-gray-200 rounded px-2 py-1 text-xs bg-white"
               >
                 {form.categories.map(cat => (
                   <option key={cat} value={cat}>{cat}</option>
@@ -652,45 +724,25 @@ function MediaSection() {
                   ...p,
                   photos: p.photos?.filter((_, i) => i !== idx)
                 }))}
-                className="w-full py-1.5 bg-red-50 text-red-500 hover:bg-red-100 rounded text-sm font-medium transition-colors"
+                className="w-full py-1 bg-red-50 text-red-500 hover:bg-red-100 rounded text-xs font-semibold transition-colors mt-auto"
               >
                 हटाएं
               </button>
             </div>
           ))}
-        </div>
-        <div className="bg-orange-50 border border-orange-100 p-4 rounded-xl">
-          <p className="text-xs font-semibold text-gray-600 mb-2">नई फोटो जोड़ें (Upload Photo)</p>
-          <div className="flex flex-col gap-3">
-            <input
-              placeholder="फोटो का नाम"
-              value={newPhotoTitle}
-              onChange={e => setNewPhotoTitle(e.target.value)}
-              className="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white"
-            />
-            <select
-              value={newPhotoCategory}
-              onChange={e => setNewPhotoCategory(e.target.value)}
-              className="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white"
-            >
-              {form.categories.map(cat => (
-                <option key={cat} value={cat}>{cat}</option>
-              ))}
-            </select>
-            <ImageUploader
-              label="फोटो अपलोड करें"
-              onUploadSuccess={url => {
-                const newPhoto: PhotoItem = {
-                  id: String(Date.now()),
-                  title: newPhotoTitle || 'नई फोटो',
-                  category: newPhotoCategory || form.categories[0] || 'सभी',
-                  url
-                };
-                setForm(p => ({ ...p, photos: [...(p.photos || []), newPhoto] }));
-                setNewPhotoTitle('');
-              }}
-            />
-          </div>
+          <ImageUploadCard
+            categories={form.categories}
+            defaultCategory={form.categories[0] || 'सभी'}
+            onUploadSuccess={(url, title, category) => {
+              const newPhoto: PhotoItem = {
+                id: String(Date.now()),
+                title,
+                category,
+                url
+              };
+              setForm(p => ({ ...p, photos: [...(p.photos || []), newPhoto] }));
+            }}
+          />
         </div>
       </div>
 
