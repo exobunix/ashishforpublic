@@ -4,7 +4,8 @@
   "license": "MIT",
   "scripts": {
     "build": "pnpm run typecheck && pnpm -r --if-present run build",
-    "prestart": "pnpm run build",
+    "build:prod": "pnpm --filter @workspace/api-server build",
+    "prestart": "pnpm run build:prod",
     "start": "pnpm --filter @workspace/api-server start",
     "typecheck:libs": "tsc --build",
     "typecheck": "pnpm run typecheck:libs && pnpm -r --filter \"./artifacts/**\" --filter \"./scripts\" --if-present run typecheck"
