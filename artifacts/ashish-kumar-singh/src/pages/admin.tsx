@@ -22,7 +22,7 @@ async function uploadToImageKit(file: File): Promise<string> {
     let errMsg = 'Upload failed';
     try {
       const data = await res.json() as { error?: string; details?: string };
-      errMsg = data.error || data.details || errMsg;
+      errMsg = data.details ? `${data.error} (${data.details})` : (data.error || data.details || errMsg);
     } catch {
       try {
         const text = await res.text();
