@@ -11,10 +11,7 @@ async function uploadToImageKit(file: File): Promise<string> {
   const formData = new FormData();
   formData.append('file', file);
 
-  let API_URL = import.meta.env.VITE_API_URL || 'https://ashishtorpublic.onrender.com';
-  if (API_URL.includes('ashishforpublic.onrender.com')) {
-    API_URL = 'https://ashishtorpublic.onrender.com';
-  }
+  const API_URL = import.meta.env.VITE_API_URL || 'https://ashishforpublic.onrender.com';
 
   const res = await fetch(`${API_URL}/api/upload`, {
     method: 'POST',
