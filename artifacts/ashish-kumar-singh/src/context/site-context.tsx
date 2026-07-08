@@ -28,7 +28,10 @@ interface SiteContextValue {
 }
 
 const STORAGE_KEY = 'ashish_site_v2';
-const API_URL = import.meta.env.VITE_API_URL || 'https://ashishtorpublic.onrender.com';
+let API_URL = import.meta.env.VITE_API_URL || 'https://ashishtorpublic.onrender.com';
+if (API_URL.includes('ashishforpublic.onrender.com')) {
+  API_URL = 'https://ashishtorpublic.onrender.com';
+}
 
 const SiteContext = createContext<SiteContextValue>({
   content: DEFAULT_CONTENT,
