@@ -7,6 +7,35 @@ import { Upload } from 'lucide-react';
 
 // ─── Reusable form primitives ────────────────────────────────────────────────
 
+async function uploadToImageKit(file: File): Promise<string> {
+  const formData = new FormData();
+  formData.append('file', file);
+
+  const API_URL = import.meta.env.VITE_API_URL || 'https://ashishforpublic.onrender.com';
+
+  const res = await fetch(`${API_URL}/api/upload`, {
+    method: 'POST',
+    body: formData,
+  });
+
+  if (!res.ok) {
+    let errMsg = 'Upload failed';
+    try {
+      const data = await res.json() as { error?: string; details?: string };
+      errMsg = data.error || data.details || errMsg;
+    } catch {
+      try {
+        const text = await res.text();
+        if (text) errMsg = text;
+      } catch {}
+    }
+    throw new Error(errMsg);
+  }
+
+  const data = await res.json() as { url: string };
+  return data.url;
+}
+
 function ImageUploader({ label, onUploadSuccess, value }: {
   label: string;
   onUploadSuccess: (url: string) => void;
@@ -19,23 +48,12 @@ function ImageUploader({ label, onUploadSuccess, value }: {
     if (!file) return;
 
     setUploading(true);
-    const formData = new FormData();
-    formData.append('file', file);
-
-    const API_URL = import.meta.env.VITE_API_URL || 'https://ashishforpublic.onrender.com';
-
     try {
-      const res = await fetch(`${API_URL}/api/upload`, {
-        method: 'POST',
-        body: formData,
-      });
-
-      if (!res.ok) throw new Error('Upload failed');
-      const data = await res.json() as { url: string };
-      onUploadSuccess(data.url);
-    } catch (err) {
+      const url = await uploadToImageKit(file);
+      onUploadSuccess(url);
+    } catch (err: any) {
       console.error(err);
-      alert('Upload failed. Please check your internet connection or server logs.');
+      alert(`Upload error: ${err.message}`);
     } finally {
       setUploading(false);
     }
@@ -72,24 +90,13 @@ function ImageUploadCard({ onUploadSuccess, categories, defaultCategory }: {
     if (!file) return;
 
     setUploading(true);
-    const formData = new FormData();
-    formData.append('file', file);
-
-    const API_URL = import.meta.env.VITE_API_URL || 'https://ashishforpublic.onrender.com';
-
     try {
-      const res = await fetch(`${API_URL}/api/upload`, {
-        method: 'POST',
-        body: formData,
-      });
-
-      if (!res.ok) throw new Error('Upload failed');
-      const data = await res.json() as { url: string };
-      onUploadSuccess(data.url, title || 'नई फोटो', category);
+      const url = await uploadToImageKit(file);
+      onUploadSuccess(url, title || 'नई फोटो', category);
       setTitle('');
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
-      alert('Upload failed. Please check your internet connection or server logs.');
+      alert(`Upload error: ${err.message}`);
     } finally {
       setUploading(false);
     }
@@ -697,7 +704,36 @@ function MediaSection() {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-4">
           {form.photos?.map((photo, idx) => (
             <div key={photo.id} className="p-4 border rounded-xl bg-white flex flex-col gap-2 shadow-sm min-h-[220px]">
-              <img src={photo.url} alt={photo.title} className="w-full h-24 object-cover rounded" />
+              {photo.url ? (
+                <img src={photo.url} alt={photo.title} className="w-full h-24 object-cover rounded" />
+              ) : (
+                <div className="w-full h-24 bg-gray-50 border border-dashed rounded flex items-center justify-center text-gray-400 text-xs font-medium">
+                  कोई फोटो नहीं
+                </div>
+              )}
+              
+              <label className="w-full py-1 bg-orange-50 hover:bg-orange-100 border border-orange-200 text-orange-600 rounded text-center text-xs font-semibold cursor-pointer transition-colors block">
+                फोटो बदलें (Upload)
+                <input
+                  type="file"
+                  className="hidden"
+                  accept="image/*"
+                  onChange={async (e) => {
+                    const file = e.target.files?.[0];
+                    if (!file) return;
+                    try {
+                      const url = await uploadToImageKit(file);
+                      setForm(p => ({
+                        ...p,
+                        photos: p.photos?.map((ph, i) => i === idx ? { ...ph, url } : ph)
+                      }));
+                    } catch (err: any) {
+                      alert(`Upload error: ${err.message}`);
+                    }
+                  }}
+                />
+              </label>
+
               <input
                 value={photo.title}
                 onChange={e => setForm(p => ({

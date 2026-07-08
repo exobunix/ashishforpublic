@@ -271,7 +271,12 @@ export const DEFAULT_CONTENT: SiteContent = {
     heroSubtitle: "चित्र, वीडियो और समाचार कवरेज",
     categories: ["सभी", "राजनीतिक", "जनसभाएं", "किसान", "महिला", "सामाजिक कार्य"],
     photoHeading: "फोटो गैलरी",
-    photos: [],
+    photos: Array.from({ length: 12 }).map((_, i) => ({
+      id: `default-${i}`,
+      category: ["सभी", "राजनीतिक", "जनसभाएं", "किसान", "महिला", "सामाजिक कार्य"][(i % 5) + 1],
+      title: `कार्यक्रम की झलकियां ${i + 1}`,
+      url: '',
+    })),
     videoHeading: "वीडियो गैलरी",
     videos: [
       { title: "जनसंपर्क अभियान — छावनी विधानसभा", embedUrl: "" },
