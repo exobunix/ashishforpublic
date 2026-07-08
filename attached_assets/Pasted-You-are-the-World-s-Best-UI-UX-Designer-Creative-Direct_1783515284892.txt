@@ -1,0 +1,870 @@
+You are the World's Best UI/UX Designer, Creative Director, Political Brand Strategist, Full Stack Developer, Motion Designer, and SEO Expert.
+
+Your task is to design and develop a premium, world-class political website for:
+
+ASHISH KUMAR SINGH
+
+Official Website
+
+Domain:
+https://www.ashishforpublic.com
+
+The website should feel comparable to the official websites of national political leaders and international public figures.
+
+The design should communicate:
+
+Leadership
+
+Trust
+
+Transparency
+
+Development
+
+Nationalism
+
+Public Service
+
+Modern Technology
+
+Professionalism
+
+Indian Heritage
+
+Elegance
+
+Premium Feel
+
+The overall experience should be clean, emotional, inspiring, responsive and highly interactive.
+
+--------------------------------------------------------
+
+DESIGN STYLE
+
+--------------------------------------------------------
+
+Primary Theme Color
+
+#FF7E54
+
+Secondary Colors
+
+White
+
+Light Cream (#FFF8F3)
+
+Very Light Orange (#FFF1EA)
+
+Dark Charcoal (#2A2A2A)
+
+Accent
+
+Saffron Gradient
+
+Subtle Green Accent
+
+Light Shadow
+
+Soft Glassmorphism
+
+Rounded Cards
+
+Modern Buttons
+
+Elegant Typography
+
+Premium Animations
+
+Micro Interactions
+
+Use plenty of white space.
+
+The website should never feel crowded.
+
+Every section should breathe.
+
+Premium spacing.
+
+Professional layouts.
+
+--------------------------------------------------------
+
+DESIGN INSPIRATION
+
+--------------------------------------------------------
+
+Narendra Modi Official Website
+
+Yogi Adityanath Official Website
+
+White House Website
+
+Apple Website
+
+Tesla Website
+
+Government Digital Service UK
+
+Modern Political Campaign Websites
+
+Corporate Executive Portfolio Websites
+
+--------------------------------------------------------
+
+TYPOGRAPHY
+
+--------------------------------------------------------
+
+Hindi Font
+
+Noto Sans Devanagari
+
+Poppins
+
+Mukta
+
+English Font
+
+Poppins
+
+Inter
+
+Manrope
+
+--------------------------------------------------------
+
+WEBSITE STRUCTURE
+
+--------------------------------------------------------
+
+Create 5 premium pages.
+
+1.
+
+HOME
+
+2.
+
+ABOUT
+
+3.
+
+VISION & PUBLIC SERVICE
+
+4.
+
+MEDIA
+
+5.
+
+CONTACT
+
+--------------------------------------------------------
+
+GLOBAL COMPONENTS
+
+--------------------------------------------------------
+
+Sticky Header
+
+Mega Navigation
+
+Floating Contact Button
+
+Floating WhatsApp
+
+Back To Top
+
+Language Switch
+
+Dark Header on Scroll
+
+Smooth Scrolling
+
+Animated Counters
+
+Timeline Animation
+
+Scroll Reveal
+
+Loading Animation
+
+Floating Shapes
+
+Glass Cards
+
+Modern Footer
+
+Newsletter
+
+Quick Links
+
+Social Media
+
+--------------------------------------------------------
+
+HOME PAGE
+
+--------------------------------------------------------
+
+Premium Hero Section
+
+Large Professional Portrait
+
+(Use uploaded image.)
+
+Background should contain
+
+soft saffron gradient
+
+India silhouette
+
+subtle BJP-inspired abstract wave elements (avoid copying official protected assets beyond user-provided branding)
+
+animated particles
+
+soft motion
+
+Headline
+
+आशीष कुमार सिंह
+
+216 छावनी विधानसभा
+
+"जनकल्याण ही मेरा धर्म"
+
+CTA Buttons
+
+मेरे बारे में
+
+जनसंपर्क करें
+
+Watch Journey
+
+Add Animated Statistics
+
+25+
+
+Years of Public Service
+
+500+
+
+Public Programs
+
+10000+
+
+Citizens Connected
+
+100+
+
+Social Campaigns
+
+Mission Section
+
+"सेवा • सुशासन • समर्पण"
+
+Three beautiful cards
+
+Service
+
+Good Governance
+
+Dedication
+
+Core Values
+
+सबका साथ
+
+सबका विकास
+
+सबका विश्वास
+
+सबका प्रयास
+
+Political Journey Preview
+
+Timeline Preview
+
+Social Work Preview
+
+Education
+
+Leadership
+
+Experience
+
+Latest News Slider
+
+Gallery Preview
+
+Video Preview
+
+Testimonials
+
+Inspirational Quote
+
+Footer
+
+--------------------------------------------------------
+
+ABOUT PAGE
+
+--------------------------------------------------------
+
+Create a luxurious biography page.
+
+Include the uploaded profile image elegantly.
+
+Timeline Design
+
+Beautiful left-right alternating timeline.
+
+Use icons.
+
+Complete biography using ALL supplied content.
+
+Do not summarize.
+
+Rewrite professionally while preserving meaning.
+
+Sections
+
+Personal Introduction
+
+Education
+
+University of Iowa
+
+USA Career
+
+IT Industry
+
+Corporate Experience
+
+Business Experience
+
+Return to India
+
+Education Sector
+
+Petroleum Business
+
+Technology Consulting
+
+Heartfulness
+
+RSS Journey
+
+BJP Journey
+
+Current Organizational Roles
+
+Social Service
+
+Leadership Philosophy
+
+Mission
+
+Values
+
+Personal Vision
+
+Political Ideology
+
+Nationalism
+
+Development
+
+Service
+
+Include
+
+Personal Information Card
+
+Father
+
+Late Amarjeet Singh
+
+Former Education Minister
+
+Birth Date
+
+Education
+
+BJP Membership Number
+
+Professional Experience Cards
+
+--------------------------------------------------------
+
+VISION PAGE
+
+--------------------------------------------------------
+
+Hero Banner
+
+"My Vision for Uttar Pradesh"
+
+Create beautiful icon sections
+
+My Priorities
+
+Farmer Welfare
+
+Women Empowerment
+
+Youth Employment
+
+Education
+
+Healthcare
+
+Digital UP
+
+Environment
+
+Transparent Governance
+
+Village Development
+
+Self Reliance
+
+Include animated roadmap.
+
+Include public service timeline.
+
+Include achievements.
+
+Include Mission Statement.
+
+Include Sankalp Section.
+
+Add beautiful quote cards.
+
+--------------------------------------------------------
+
+MEDIA PAGE
+
+--------------------------------------------------------
+
+Two Sections
+
+Photo Gallery
+
+Video Gallery
+
+Gallery Categories
+
+Political Events
+
+Public Meetings
+
+Farmer Events
+
+Women Programs
+
+Education
+
+Health Camps
+
+Tree Plantation
+
+Religious Programs
+
+Public Interaction
+
+Awards
+
+Service Activities
+
+Videos
+
+Embed YouTube ready cards.
+
+Media Coverage
+
+News Cards
+
+Press Release Cards
+
+--------------------------------------------------------
+
+CONTACT PAGE
+
+--------------------------------------------------------
+
+Large Contact Banner
+
+Contact Card
+
+Office Address
+
+जनसेवक सदन
+
+33-B
+
+Block D
+
+Shyam Nagar
+
+Kanpur
+
+208013
+
+Phone
+
+9415050717
+
+8933850006
+
+Email
+
+ashishsinghjansevak@gmail.com
+
+Website
+
+ashishforpublic.com
+
+Social Links
+
+Facebook
+
+X
+
+Instagram
+
+Google Map
+
+Large Contact Form
+
+Fields
+
+Name
+
+Phone
+
+Email
+
+Subject
+
+Message
+
+Submit
+
+FAQ
+
+Office Hours
+
+Volunteer Registration
+
+--------------------------------------------------------
+
+SPECIAL SECTIONS
+
+--------------------------------------------------------
+
+Interactive Political Timeline
+
+Animated Counters
+
+Mission
+
+Vision
+
+Achievements
+
+Core Values
+
+Inspirational Quotes
+
+Testimonials
+
+Volunteer CTA
+
+Donate CTA (placeholder)
+
+Latest Updates
+
+Media Highlights
+
+Gallery
+
+News
+
+Upcoming Events
+
+Social Work
+
+Call to Action
+
+--------------------------------------------------------
+
+CONTENT
+
+--------------------------------------------------------
+
+Use ALL the content provided below.
+
+Do not omit anything.
+
+Rewrite in premium Hindi.
+
+Maintain proper hierarchy.
+
+Use elegant headings.
+
+Break long paragraphs into readable sections.
+
+Use cards.
+
+Use timeline.
+
+Use accordions.
+
+Use icon boxes.
+
+Use highlight quotes.
+
+Use statistic cards.
+
+Use banners.
+
+Use elegant typography.
+
+Everything must remain readable.
+
+Include:
+
+Home Content
+
+About Content
+
+Political Journey
+
+Professional Experience
+
+Education
+
+RSS
+
+BJP
+
+Heartfulness
+
+Social Work
+
+Corona Annapurna Rasoi
+
+Healthcare
+
+Education
+
+Tree Plantation
+
+Women's Empowerment
+
+Youth
+
+Farmer Welfare
+
+Vision
+
+Mission
+
+News
+
+Gallery
+
+Videos
+
+Contact
+
+Professional Experience
+
+Personal Information
+
+Inspirational Message
+
+Everything from the provided document.
+
+--------------------------------------------------------
+
+IMAGES
+
+--------------------------------------------------------
+
+Use uploaded profile photograph.
+
+Create placeholders for:
+
+Political Rally
+
+Meeting Public
+
+Farmer Interaction
+
+School Visit
+
+Temple Visit
+
+Healthcare Camp
+
+Tree Plantation
+
+Party Meetings
+
+Public Address
+
+Social Service
+
+Children
+
+Youth Programs
+
+Women Programs
+
+Office Meeting
+
+Media Interaction
+
+Gallery Images
+
+Design elegant gallery grids.
+
+--------------------------------------------------------
+
+ANIMATIONS
+
+--------------------------------------------------------
+
+Framer Motion
+
+GSAP
+
+Lottie
+
+Scroll Reveal
+
+Smooth Fade
+
+Text Reveal
+
+Image Zoom
+
+Timeline Animation
+
+Counter Animation
+
+Hover Cards
+
+Gradient Background Motion
+
+Floating Shapes
+
+Parallax
+
+Premium Page Transition
+
+--------------------------------------------------------
+
+SEO
+
+--------------------------------------------------------
+
+Generate
+
+Title
+
+Meta Description
+
+Open Graph
+
+Twitter Cards
+
+Schema
+
+Breadcrumbs
+
+Canonical
+
+robots.txt
+
+sitemap.xml
+
+--------------------------------------------------------
+
+PERFORMANCE
+
+--------------------------------------------------------
+
+90+ Lighthouse Score
+
+Lazy Loading
+
+Image Optimization
+
+Responsive
+
+Accessibility
+
+Fast Loading
+
+--------------------------------------------------------
+
+RESPONSIVE
+
+--------------------------------------------------------
+
+Desktop
+
+Laptop
+
+Tablet
+
+Mobile
+
+Ultra Wide
+
+--------------------------------------------------------
+
+TECH STACK
+
+--------------------------------------------------------
+
+Next.js 15
+
+React
+
+TypeScript
+
+Tailwind CSS
+
+ShadCN UI
+
+Framer Motion
+
+Lucide Icons
+
+Swiper
+
+GSAP
+
+React Hook Form
+
+SEO Optimized
+
+--------------------------------------------------------
+
+ADMIN READY
+
+--------------------------------------------------------
+
+Prepare CMS-ready architecture so that future integration with Strapi, WordPress Headless, Sanity, or a custom admin panel is straightforward.
+
+--------------------------------------------------------
+
+DELIVERABLE
+
+--------------------------------------------------------
+
+Generate a complete production-ready website UI with premium layouts, reusable components, responsive design, proper routing, elegant animations, clean code architecture, and placeholder assets. Every page should look polished, modern, and suitable for a public leader's official website while presenting all supplied information in a clear, dignified, and well-structured manner.
