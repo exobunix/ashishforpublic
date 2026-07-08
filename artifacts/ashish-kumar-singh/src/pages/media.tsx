@@ -4,6 +4,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Play, Image as ImageIcon, Calendar } from 'lucide-react';
 import { useSite } from '@/context/site-context';
+import { DEFAULT_CONTENT } from '@/lib/site-content';
 
 // Stable placeholder colors
 const COLORS = ['bg-primary/20', 'bg-accent/20', 'bg-emerald-500/20', 'bg-blue-500/20'];
@@ -16,15 +17,7 @@ export default function Media() {
 
   const firstCat = media.categories[0];
 
-  // Generate placeholder photo grid based on categories
-  const defaultPhotos = Array.from({ length: 12 }).map((_, i) => ({
-    id: String(i),
-    category: media.categories[(i % (media.categories.length - 1)) + 1] || media.categories[1],
-    title: `कार्यक्रम की झलकियां ${i + 1}`,
-    url: '',
-    color: COLORS[i % COLORS.length],
-  }));
-
+  const defaultPhotos = DEFAULT_CONTENT.media.photos || [];
   const photos = media.photos && media.photos.length > 0 ? media.photos : defaultPhotos;
 
   const filtered = activeCategory === firstCat

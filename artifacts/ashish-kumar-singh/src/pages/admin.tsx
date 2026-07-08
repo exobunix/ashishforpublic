@@ -36,6 +36,17 @@ async function uploadToImageKit(file: File): Promise<string> {
   return data.url;
 }
 
+const LotusIconPreview = () => (
+  <svg viewBox="0 0 40 44" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-8 h-8">
+    <path d="M20 38C20 38 15 28 15 20C15 14.5 17 11 20 11C23 11 25 14.5 25 20C25 28 20 38 20 38Z" fill="#FF7E54"/>
+    <path d="M20 35C20 35 9 27.5 7 18.5C5.5 12.5 8.5 9 12 10C14.5 10.5 16.5 14.5 17.5 19.5C18.5 24.5 20 35 20 35Z" fill="#FF7E54" opacity="0.9"/>
+    <path d="M20 35C20 35 31 27.5 33 18.5C34.5 12.5 31.5 9 28 10C25.5 10.5 23.5 14.5 22.5 19.5C21.5 24.5 20 35 20 35Z" fill="#FF7E54" opacity="0.9"/>
+    <path d="M20 30C20 30 6 22.5 4 12.5C3 7 6.5 4 10.5 5.5C13.5 7 15.5 13 17 18.5C18.5 24 20 30 20 30Z" fill="#FF7E54" opacity="0.72"/>
+    <path d="M20 30C20 30 34 22.5 36 12.5C37 7 33.5 4 29.5 5.5C26.5 7 24.5 13 23 18.5C21.5 24 20 30 20 30Z" fill="#FF7E54" opacity="0.72"/>
+    <circle cx="20" cy="20" r="4.5" fill="#FF7E54"/>
+  </svg>
+);
+
 function ImageUploader({ label, onUploadSuccess, value }: {
   label: string;
   onUploadSuccess: (url: string) => void;
@@ -63,9 +74,13 @@ function ImageUploader({ label, onUploadSuccess, value }: {
     <div className="mb-4 bg-white p-4 border rounded-xl shadow-sm">
       <label className="block text-sm font-semibold text-gray-700 mb-2">{label}</label>
       <div className="flex items-center gap-4">
-        {value && (
-          <img src={value} alt="Preview" className="w-16 h-16 object-cover rounded border" />
-        )}
+        <div className="w-16 h-16 rounded-full bg-orange-50 flex items-center justify-center border overflow-hidden">
+          {value ? (
+            <img src={value} alt="Preview" className="w-full h-full object-cover" />
+          ) : (
+            <LotusIconPreview />
+          )}
+        </div>
         <label className="flex items-center gap-2 px-4 py-2 bg-orange-50 hover:bg-orange-100 border border-orange-200 text-orange-600 rounded-lg cursor-pointer text-sm font-medium transition-colors">
           <Upload className="w-4 h-4" />
           {uploading ? 'अपलोड हो रहा है...' : 'लोगो बदलें (Upload)'}
@@ -669,10 +684,14 @@ function VisionSection() {
 function MediaSection() {
   const { content, update } = useSite();
   const { toast } = useToast();
+  const defaultPhotos = DEFAULT_CONTENT.media.photos || [];
+
   const [form, setForm] = useState({
     ...content.media,
     categories: [...content.media.categories],
-    photos: content.media.photos ? content.media.photos.map(p => ({ ...p })) : [],
+    photos: content.media.photos && content.media.photos.length > 0
+      ? content.media.photos.map(p => ({ ...p }))
+      : defaultPhotos.map(p => ({ ...p })),
     videos: content.media.videos.map(v => ({ ...v })),
     news: content.media.news.map(n => ({ ...n })),
   });
@@ -684,7 +703,9 @@ function MediaSection() {
     setForm({
       ...content.media,
       categories: [...content.media.categories],
-      photos: content.media.photos ? content.media.photos.map(p => ({ ...p })) : [],
+      photos: content.media.photos && content.media.photos.length > 0
+        ? content.media.photos.map(p => ({ ...p }))
+        : defaultPhotos.map(p => ({ ...p })),
       videos: content.media.videos.map(v => ({ ...v })),
       news: content.media.news.map(n => ({ ...n }))
     });
