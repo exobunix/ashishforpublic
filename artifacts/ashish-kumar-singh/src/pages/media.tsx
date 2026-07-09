@@ -9,8 +9,14 @@ import { DEFAULT_CONTENT } from '@/lib/site-content';
 // Stable placeholder colors
 const COLORS = ['bg-primary/20', 'bg-accent/20', 'bg-emerald-500/20', 'bg-blue-500/20'];
 
-function getYouTubeEmbedUrl(url: string): string {
+function getVideoEmbedUrl(url: string): string {
   if (!url) return '';
+  
+  // Facebook Video / Reel
+  if (url.includes('facebook.com') || url.includes('fb.watch')) {
+    return `https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(url)}&show_text=0`;
+  }
+  
   if (url.includes('/embed/')) return url;
   
   let videoId = '';
@@ -139,7 +145,7 @@ export default function Media() {
                 {video.embedUrl ? (
                   <div className="rounded-2xl overflow-hidden shadow-lg">
                     <iframe
-                      src={getYouTubeEmbedUrl(video.embedUrl)}
+                      src={getVideoEmbedUrl(video.embedUrl)}
                       title={video.title}
                       className="w-full aspect-video"
                       allowFullScreen
