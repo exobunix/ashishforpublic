@@ -81,6 +81,7 @@ export interface SiteContent {
     timelineEvents: AboutTimelineEvent[];
     philosophyCards: CardItem[];
     inspirationQuote: string;
+    profileImage?: string;
   };
   vision: {
     heroHeading: string;
@@ -226,6 +227,7 @@ export const DEFAULT_CONTENT: SiteContent = {
       { title: "मिशन (Mission)", desc: "सेवा, सुशासन और समर्पण के मंत्र के साथ अंतिम पंक्ति के व्यक्ति तक विकास पहुंचाना।" },
     ],
     inspirationQuote: "राष्ट्र सर्वोपरि, संगठन ही शक्ति है, सेवा ही सबसे बड़ा धर्म है।",
+    profileImage: "",
   },
   vision: {
     heroHeading: "उत्तर प्रदेश के लिए मेरी दृष्टि",

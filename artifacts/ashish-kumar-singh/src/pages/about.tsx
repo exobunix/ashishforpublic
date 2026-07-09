@@ -56,7 +56,7 @@ export default function About() {
               <div className="grid grid-cols-1 md:grid-cols-3">
                 <div className="md:col-span-1 bg-secondary/30 relative min-h-[300px]">
                   <img
-                    src={profileImg}
+                    src={about.profileImage || profileImg}
                     alt="Ashish Kumar Singh"
                     className="absolute inset-0 w-full h-full object-cover object-top"
                   />

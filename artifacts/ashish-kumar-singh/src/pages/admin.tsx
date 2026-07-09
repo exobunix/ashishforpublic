@@ -84,8 +84,8 @@ function ImageUploader({ label, onUploadSuccess, value, btnLabel = 'लोगो
     }
   };
 
-  const isHero = label.toLowerCase().includes('hero') || label.includes('मुख्य');
-  const aspectRatio = isHero ? 0.8 : 1.0;
+  const isVertical = label.toLowerCase().includes('hero') || label.includes('मुख्य') || label.toLowerCase().includes('about') || label.includes('परिचय');
+  const aspectRatio = isVertical ? 0.75 : 1.0;
 
   return (
     <div className="mb-4 bg-white p-4 border rounded-xl shadow-sm">
@@ -665,6 +665,12 @@ function AboutSection() {
       <F label="उप-शीर्षक" value={form.heroSubtitle} onChange={v => setForm(p => ({ ...p, heroSubtitle: v }))} />
       <div className="my-6 pt-4 border-t">
         <p className="font-semibold text-gray-700 mb-3">व्यक्तिगत जानकारी</p>
+        <ImageUploader
+          label="परिचय फोटो (About Image)"
+          value={form.profileImage}
+          onUploadSuccess={url => setForm(p => ({ ...p, profileImage: url }))}
+          btnLabel="फोटो बदलें (Upload)"
+        />
         <F label="नाम" value={form.personalName} onChange={v => setForm(p => ({ ...p, personalName: v }))} />
         <F label="पिता का नाम" value={form.personalFather} onChange={v => setForm(p => ({ ...p, personalFather: v }))} />
         <F label="जन्म तिथि" value={form.personalBirth} onChange={v => setForm(p => ({ ...p, personalBirth: v }))} />
