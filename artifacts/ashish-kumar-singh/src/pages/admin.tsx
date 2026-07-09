@@ -4,6 +4,7 @@ import { DEFAULT_CONTENT, NavLink, StatItem, TimelineItem, AboutTimelineEvent, P
 import { useToast } from '@/hooks/use-toast';
 import { Toaster } from '@/components/ui/toaster';
 import { Upload } from 'lucide-react';
+import { ImageCropper } from '@/components/image-cropper';
 
 // ─── Reusable form primitives ────────────────────────────────────────────────
 
@@ -47,20 +48,33 @@ const LotusIconPreview = () => (
   </svg>
 );
 
-function ImageUploader({ label, onUploadSuccess, value }: {
+function ImageUploader({ label, onUploadSuccess, value, btnLabel = 'लोगो बदलें (Upload)' }: {
   label: string;
   onUploadSuccess: (url: string) => void;
   value?: string;
+  btnLabel?: string;
 }) {
   const [uploading, setUploading] = useState(false);
+  const [cropSrc, setCropSrc] = useState<string | null>(null);
+  const [origFileName, setOrigFileName] = useState('');
 
-  const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
+    setOrigFileName(file.name);
+    const reader = new FileReader();
+    reader.onload = () => {
+      setCropSrc(reader.result as string);
+    };
+    reader.readAsDataURL(file);
+    e.target.value = '';
+  };
 
+  const handleCropComplete = async (croppedFile: File) => {
+    setCropSrc(null);
     setUploading(true);
     try {
-      const url = await uploadToImageKit(file);
+      const url = await uploadToImageKit(croppedFile);
       onUploadSuccess(url);
     } catch (err: any) {
       console.error(err);
@@ -69,6 +83,9 @@ function ImageUploader({ label, onUploadSuccess, value }: {
       setUploading(false);
     }
   };
+
+  const isHero = label.toLowerCase().includes('hero') || label.includes('मुख्य');
+  const aspectRatio = isHero ? 0.8 : 1.0;
 
   return (
     <div className="mb-4 bg-white p-4 border rounded-xl shadow-sm">
@@ -83,10 +100,19 @@ function ImageUploader({ label, onUploadSuccess, value }: {
         </div>
         <label className="flex items-center gap-2 px-4 py-2 bg-orange-50 hover:bg-orange-100 border border-orange-200 text-orange-600 rounded-lg cursor-pointer text-sm font-medium transition-colors">
           <Upload className="w-4 h-4" />
-          {uploading ? 'अपलोड हो रहा है...' : 'लोगो बदलें (Upload)'}
-          <input type="file" className="hidden" accept="image/*" onChange={handleUpload} disabled={uploading} />
+          {uploading ? 'अपलोड हो रहा है...' : btnLabel}
+          <input type="file" className="hidden" accept="image/*" onChange={onFileSelect} disabled={uploading} />
         </label>
       </div>
+      {cropSrc && (
+        <ImageCropper
+          imageSrc={cropSrc}
+          aspectRatio={aspectRatio}
+          fileName={origFileName}
+          onCropComplete={handleCropComplete}
+          onCancel={() => setCropSrc(null)}
+        />
+      )}
     </div>
   );
 }
@@ -99,22 +125,57 @@ function ImageUploadCard({ onUploadSuccess, categories, defaultCategory }: {
   const [uploading, setUploading] = useState(false);
   const [title, setTitle] = useState('');
   const [category, setCategory] = useState(defaultCategory);
+  
+  const [queue, setQueue] = useState<File[]>([]);
+  const [cropSrc, setCropSrc] = useState<string | null>(null);
+  const [origFileName, setOrigFileName] = useState('');
 
-  const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+  // Handle files selection
+  const onFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFiles = Array.from(e.target.files || []);
+    if (selectedFiles.length === 0) return;
+    setQueue(prev => [...prev, ...selectedFiles]);
+    e.target.value = '';
+  };
 
+  // Process queue
+  useEffect(() => {
+    if (queue.length > 0 && !cropSrc && !uploading) {
+      const nextFile = queue[0];
+      setOrigFileName(nextFile.name);
+      const reader = new FileReader();
+      reader.onload = () => {
+        setCropSrc(reader.result as string);
+      };
+      reader.readAsDataURL(nextFile);
+    }
+  }, [queue, cropSrc, uploading]);
+
+  const handleCropComplete = async (croppedFile: File) => {
+    setCropSrc(null);
     setUploading(true);
     try {
-      const url = await uploadToImageKit(file);
-      onUploadSuccess(url, title || 'नई फोटो', category);
-      setTitle('');
+      const url = await uploadToImageKit(croppedFile);
+      // If user typed a title, use it. Otherwise, use filename without extension.
+      const displayTitle = title || origFileName.replace(/\.[^/.]+$/, "");
+      onUploadSuccess(url, displayTitle, category);
+      
+      // Clear manual title input if we finished the entire queue
+      if (queue.length <= 1) {
+        setTitle('');
+      }
     } catch (err: any) {
       console.error(err);
       alert(`Upload error: ${err.message}`);
     } finally {
       setUploading(false);
+      setQueue(prev => prev.slice(1));
     }
+  };
+
+  const handleCancel = () => {
+    setCropSrc(null);
+    setQueue(prev => prev.slice(1));
   };
 
   return (
@@ -123,11 +184,14 @@ function ImageUploadCard({ onUploadSuccess, categories, defaultCategory }: {
         <div className="flex flex-col items-center gap-2">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div>
           <span className="text-xs text-orange-500 font-medium">अपलोड हो रहा है...</span>
+          {queue.length > 0 && (
+            <span className="text-[10px] text-gray-500">शेष फ़ाइलें: {queue.length}</span>
+          )}
         </div>
       ) : (
         <>
           <input
-            placeholder="नाम दर्ज करें"
+            placeholder="नाम दर्ज करें (वैकल्पिक)"
             value={title}
             onChange={e => setTitle(e.target.value)}
             className="w-full border border-gray-200 rounded px-2 py-1 text-xs text-center"
@@ -143,10 +207,21 @@ function ImageUploadCard({ onUploadSuccess, categories, defaultCategory }: {
           </select>
           <label className="w-12 h-12 rounded-full bg-orange-500 hover:bg-orange-600 text-white flex items-center justify-center cursor-pointer shadow transition-all duration-300 transform group-hover:scale-105">
             <span className="text-2xl font-bold">+</span>
-            <input type="file" className="hidden" accept="image/*" onChange={handleUpload} />
+            <input type="file" className="hidden" accept="image/*" multiple onChange={onFileSelect} />
           </label>
-          <span className="text-xs text-gray-500 font-semibold mt-1">नई फोटो जोड़ें</span>
+          <span className="text-xs text-gray-500 font-semibold mt-1">
+            {queue.length > 0 ? `कतार में: ${queue.length} फोटो` : 'फ़ोटो अपलोड (Bulk)'}
+          </span>
         </>
+      )}
+      {cropSrc && (
+        <ImageCropper
+          imageSrc={cropSrc}
+          aspectRatio={1.0}
+          fileName={origFileName}
+          onCropComplete={handleCropComplete}
+          onCancel={handleCancel}
+        />
       )}
     </div>
   );
@@ -449,6 +524,12 @@ function HeroSection() {
       <F label="CTA बटन 3 (विज़न)" value={form.cta3} onChange={set('cta3')} />
       <F label="फ्लोटिंग बैज शीर्षक" value={form.floatingBadgeTitle} onChange={set('floatingBadgeTitle')} />
       <F label="फ्लोटिंग बैज सब-टेक्स्ट" value={form.floatingBadgeSub} onChange={set('floatingBadgeSub')} />
+      <ImageUploader
+        label="मुख्य फोटो (Hero Photo)"
+        value={form.profileImage}
+        onUploadSuccess={url => setForm(p => ({ ...p, profileImage: url }))}
+        btnLabel="फोटो बदलें (Upload)"
+      />
       <SaveBtn onClick={save} />
     </div>
   );
@@ -699,6 +780,11 @@ function MediaSection() {
   const [newPhotoTitle, setNewPhotoTitle] = useState('');
   const [newPhotoCategory, setNewPhotoCategory] = useState(content.media.categories[0] || 'सभी');
 
+  // Cropper states for existing photos edit
+  const [activeCropIdx, setActiveCropIdx] = useState<number | null>(null);
+  const [activeCropSrc, setActiveCropSrc] = useState<string | null>(null);
+  const [activeCropFileName, setActiveCropFileName] = useState('');
+
   useEffect(() => {
     setForm({
       ...content.media,
@@ -739,18 +825,17 @@ function MediaSection() {
                   type="file"
                   className="hidden"
                   accept="image/*"
-                  onChange={async (e) => {
+                  onChange={(e) => {
                     const file = e.target.files?.[0];
                     if (!file) return;
-                    try {
-                      const url = await uploadToImageKit(file);
-                      setForm(p => ({
-                        ...p,
-                        photos: p.photos?.map((ph, i) => i === idx ? { ...ph, url } : ph)
-                      }));
-                    } catch (err: any) {
-                      alert(`Upload error: ${err.message}`);
-                    }
+                    setActiveCropIdx(idx);
+                    setActiveCropFileName(file.name);
+                    const reader = new FileReader();
+                    reader.onload = () => {
+                      setActiveCropSrc(reader.result as string);
+                    };
+                    reader.readAsDataURL(file);
+                    e.target.value = '';
                   }}
                 />
               </label>
@@ -802,6 +887,32 @@ function MediaSection() {
           />
         </div>
       </div>
+
+      {activeCropSrc && activeCropIdx !== null && (
+        <ImageCropper
+          imageSrc={activeCropSrc}
+          aspectRatio={1.0}
+          fileName={activeCropFileName}
+          onCancel={() => {
+            setActiveCropSrc(null);
+            setActiveCropIdx(null);
+          }}
+          onCropComplete={async (croppedFile) => {
+            const idx = activeCropIdx;
+            setActiveCropSrc(null);
+            setActiveCropIdx(null);
+            try {
+              const url = await uploadToImageKit(croppedFile);
+              setForm(p => ({
+                ...p,
+                photos: p.photos?.map((ph, i) => i === idx ? { ...ph, url } : ph)
+              }));
+            } catch (err: any) {
+              alert(`Upload error: ${err.message}`);
+            }
+          }}
+        />
+      )}
 
       <div className="mt-6 pt-4 border-t">
         <F label="वीडियो सेक्शन शीर्षक" value={form.videoHeading} onChange={v => setForm(p => ({ ...p, videoHeading: v }))} />

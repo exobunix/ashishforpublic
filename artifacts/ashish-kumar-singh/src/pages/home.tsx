@@ -87,7 +87,7 @@ export default function Home() {
             >
               <div className="relative w-full max-w-[500px] aspect-[4/5] rounded-3xl overflow-hidden border-8 border-white shadow-2xl bg-gradient-to-t from-primary/20 to-transparent">
                 <img
-                  src={profileImg}
+                  src={hero.profileImage || profileImg}
                   alt="Ashish Kumar Singh"
                   className="w-full h-full object-cover object-top"
                 />

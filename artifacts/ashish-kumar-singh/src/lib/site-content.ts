@@ -48,6 +48,7 @@ export interface SiteContent {
     cta3: string;
     floatingBadgeTitle: string;
     floatingBadgeSub: string;
+    profileImage?: string;
   };
   stats: StatItem[];
   mission: {
@@ -163,6 +164,7 @@ export const DEFAULT_CONTENT: SiteContent = {
     cta3: "विज़न देखें",
     floatingBadgeTitle: "समर्पित नेतृत्व",
     floatingBadgeSub: "जनता के द्वार",
+    profileImage: "",
   },
   stats: [
     { label: "वर्षों का अनुभव", value: 25, suffix: "+" },

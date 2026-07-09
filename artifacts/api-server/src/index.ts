@@ -1,3 +1,11 @@
+import dns from "dns";
+dns.setDefaultResultOrder("ipv4first");
+try {
+  dns.setServers(["8.8.8.8", "1.1.1.1"]);
+} catch (e) {
+  console.warn("Failed to set DNS servers", e);
+}
+
 import app from "./app";
 import { logger } from "./lib/logger";
 
