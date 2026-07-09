@@ -233,8 +233,8 @@ export function ImageCropper({
           <svg className="absolute inset-0 w-full h-full pointer-events-none">
             <path d={renderOverlayPath()} fill="rgba(0, 0, 0, 0.6)" fillRule="evenodd" />
             <rect
-              x={(containerRef.current?.clientWidth || 0 - cropBox.width) / 2}
-              y={(containerRef.current?.clientHeight || 0 - cropBox.height) / 2}
+              x={((containerRef.current?.clientWidth || 0) - cropBox.width) / 2}
+              y={((containerRef.current?.clientHeight || 0) - cropBox.height) / 2}
               width={cropBox.width}
               height={cropBox.height}
               fill="none"
