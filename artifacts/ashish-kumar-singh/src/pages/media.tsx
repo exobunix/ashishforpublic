@@ -9,6 +9,38 @@ import { DEFAULT_CONTENT } from '@/lib/site-content';
 // Stable placeholder colors
 const COLORS = ['bg-primary/20', 'bg-accent/20', 'bg-emerald-500/20', 'bg-blue-500/20'];
 
+function getYouTubeEmbedUrl(url: string): string {
+  if (!url) return '';
+  if (url.includes('/embed/')) return url;
+  
+  let videoId = '';
+  
+  if (url.includes('/shorts/')) {
+    const parts = url.split('/shorts/');
+    if (parts[1]) {
+      videoId = parts[1].split('?')[0].split('&')[0];
+    }
+  } else if (url.includes('v=')) {
+    const match = url.match(/[?&]v=([^&#]+)/);
+    if (match && match[1]) {
+      videoId = match[1];
+    }
+  } else if (url.includes('youtu.be/')) {
+    const parts = url.split('youtu.be/');
+    if (parts[1]) {
+      videoId = parts[1].split('?')[0].split('&')[0];
+    }
+  } else if (!url.includes('/') && url.length > 5) {
+    videoId = url;
+  }
+  
+  if (videoId) {
+    return `https://www.youtube.com/embed/${videoId}`;
+  }
+  
+  return url;
+}
+
 export default function Media() {
   const { content } = useSite();
   const { media } = content;
@@ -107,7 +139,7 @@ export default function Media() {
                 {video.embedUrl ? (
                   <div className="rounded-2xl overflow-hidden shadow-lg">
                     <iframe
-                      src={video.embedUrl}
+                      src={getYouTubeEmbedUrl(video.embedUrl)}
                       title={video.title}
                       className="w-full aspect-video"
                       allowFullScreen
