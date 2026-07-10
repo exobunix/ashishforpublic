@@ -129,6 +129,7 @@ export const DEFAULT_CONTENT: SiteContent = {
     siteName: "आशीष कुमार सिंह",
     tagline: "जनकल्याण ही मेरा धर्म",
     navCtaLabel: "जुड़ें",
+    logoUrl: "https://ik.imagekit.io/smcdngw8m/336-3365329_bjp-png-clipart-indian-national-congress-bharatiya-bjp-logo-png-hd-removebg-preview_b0kX6vgNL.png?updatedAt=1783583022193",
   },
   whatsapp: {
     number: "919415050717",
@@ -165,7 +166,7 @@ export const DEFAULT_CONTENT: SiteContent = {
     cta3: "विज़न देखें",
     floatingBadgeTitle: "समर्पित नेतृत्व",
     floatingBadgeSub: "जनता के द्वार",
-    profileImage: "",
+    profileImage: "https://ik.imagekit.io/smcdngw8m/e101b72c-3c89-4b89-ada9-bcb31bd339c6_xwIFphJ4f.png?updatedAt=1783584223646",
   },
   stats: [
     { label: "वर्षों का अनुभव", value: 25, suffix: "+" },
@@ -227,7 +228,7 @@ export const DEFAULT_CONTENT: SiteContent = {
       { title: "मिशन (Mission)", desc: "सेवा, सुशासन और समर्पण के मंत्र के साथ अंतिम पंक्ति के व्यक्ति तक विकास पहुंचाना।" },
     ],
     inspirationQuote: "राष्ट्र सर्वोपरि, संगठन ही शक्ति है, सेवा ही सबसे बड़ा धर्म है।",
-    profileImage: "",
+    profileImage: "https://ik.imagekit.io/smcdngw8m/6ce2fee6-7751-4692-8bfd-355a048dfea6_sXXp7NO8A.png?updatedAt=1783584702477",
   },
   vision: {
     heroHeading: "उत्तर प्रदेश के लिए मेरी दृष्टि",
@@ -275,80 +276,272 @@ export const DEFAULT_CONTENT: SiteContent = {
     heroSubtitle: "चित्र, वीडियो और समाचार कवरेज",
     categories: ["सभी", "राजनीतिक", "जनसभाएं", "किसान", "महिला", "सामाजिक कार्य"],
     photoHeading: "फोटो गैलरी",
-    photos: [
-      {
-        id: "default-0",
-        category: "राजनीतिक",
-        title: "सशक्त नेतृत्व एवं जनसंवाद",
-        url: "https://images.unsplash.com/photo-1540910419892-4a36d2c3266c?q=80&w=800",
-      },
-      {
-        id: "default-1",
-        category: "जनसभाएं",
-        title: "विशाल जनसभा को संबोधित करते हुए",
-        url: "https://images.unsplash.com/photo-1511578314322-379afb476865?q=80&w=800",
-      },
-      {
-        id: "default-2",
-        category: "किसान",
-        title: "कृषक बंधुओं से सीधा संवाद",
-        url: "https://images.unsplash.com/photo-1595974482597-4b8da8879bc5?q=80&w=800",
-      },
-      {
-        id: "default-3",
-        category: "महिला",
-        title: "महिला सशक्तिकरण एवं स्वावलंबन कार्यक्रम",
-        url: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=800",
-      },
-      {
-        id: "default-4",
-        category: "सामाजिक कार्य",
-        title: "अन्नपूर्णा रसोई भोजन वितरण अभियान",
-        url: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=800",
-      },
-      {
-        id: "default-5",
-        category: "राजनीतिक",
-        title: "कार्यकर्ता सम्मेलन को संबोधित करते हुए",
-        url: "https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?q=80&w=800",
-      },
-      {
-        id: "default-6",
-        category: "जनसभाएं",
-        title: "जनता दरबार में जनसुनवाई",
-        url: "https://images.unsplash.com/photo-1475721027785-f74eccf877e2?q=80&w=800",
-      },
-      {
-        id: "default-7",
-        category: "किसान",
-        title: "कृषि उन्नति पर परिचर्चा",
-        url: "https://images.unsplash.com/photo-1592997505419-07494a861cfc?q=80&w=800",
-      },
-      {
-        id: "default-8",
-        category: "महिला",
-        title: "सिलाई-कढ़ाई प्रशिक्षण केंद्र शुभारंभ",
-        url: "https://images.unsplash.com/photo-1598252573302-b35594829223?q=80&w=800",
-      },
-      {
-        id: "default-9",
-        category: "सामाजिक कार्य",
-        title: "निःशुल्क स्वास्थ्य शिविर एवं चिकित्सा वितरण",
-        url: "https://images.unsplash.com/photo-1469571486040-afbef0cd3cdb?q=80&w=800",
-      },
-      {
-        id: "default-10",
-        category: "राजनीतिक",
-        title: "पार्टी पदाधिकारियों के साथ बैठक",
-        url: "https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=800",
-      },
-      {
-        id: "default-11",
-        category: "सामाजिक कार्य",
-        title: "स्वच्छता एवं पर्यावरण संरक्षण अभियान",
-        url: "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?q=80&w=800",
-      },
-    ],
+photos: [
+    {
+        "id": "ik-0",
+        "category": "राजनीतिक",
+        "title": "झलकियां 1",
+        "url": "https://ik.imagekit.io/smcdngw8m/WhatsApp_Image_2026-07-09_at_12.05.07__1__UaxnElWcb.jpeg?updatedAt=1783580963243"
+    },
+    {
+        "id": "ik-1",
+        "category": "जनसभाएं",
+        "title": "झलकियां 2",
+        "url": "https://ik.imagekit.io/smcdngw8m/WhatsApp_Image_2026-07-09_at_12.05.07__1__RTgiFhLrh.jpeg?updatedAt=1783581723302"
+    },
+    {
+        "id": "ik-2",
+        "category": "किसान",
+        "title": "झलकियां 3",
+        "url": "https://ik.imagekit.io/smcdngw8m/WhatsApp_Image_2026-07-09_at_12.05.07__1__Xa59pLHpU.jpeg?updatedAt=1783582103022"
+    },
+    {
+        "id": "ik-3",
+        "category": "महिला",
+        "title": "झलकियां 4",
+        "url": "https://ik.imagekit.io/smcdngw8m/WhatsApp_Image_2026-07-09_at_12.05.07_TsqY2H_Tl.jpeg?updatedAt=1783582138211"
+    },
+    {
+        "id": "ik-4",
+        "category": "सामाजिक कार्य",
+        "title": "झलकियां 5",
+        "url": "https://ik.imagekit.io/smcdngw8m/WhatsApp_Image_2026-07-09_at_12.05.08_2IxBiqpch.jpeg?updatedAt=1783582190562"
+    },
+    {
+        "id": "ik-5",
+        "category": "राजनीतिक",
+        "title": "झलकियां 6",
+        "url": "https://ik.imagekit.io/smcdngw8m/WhatsApp_Image_2026-07-09_at_12.05.07__1__qd8BI99Wa.jpeg?updatedAt=1783582207501"
+    },
+    {
+        "id": "ik-6",
+        "category": "जनसभाएं",
+        "title": "झलकियां 7",
+        "url": "https://ik.imagekit.io/smcdngw8m/WhatsApp_Image_2026-07-09_at_12.05.07__1__MjVJeUAa1.jpeg?updatedAt=1783582247877"
+    },
+    {
+        "id": "ik-7",
+        "category": "किसान",
+        "title": "झलकियां 8",
+        "url": "https://ik.imagekit.io/smcdngw8m/WhatsApp_Image_2026-07-09_at_12.05.07_ANcur4qTb.jpeg?updatedAt=1783582267496"
+    },
+    {
+        "id": "ik-8",
+        "category": "महिला",
+        "title": "झलकियां 9",
+        "url": "https://ik.imagekit.io/smcdngw8m/WhatsApp_Image_2026-07-09_at_12.05.08__1__81L1qR53r.jpeg?updatedAt=1783582292643"
+    },
+    {
+        "id": "ik-9",
+        "category": "सामाजिक कार्य",
+        "title": "झलकियां 10",
+        "url": "https://ik.imagekit.io/smcdngw8m/WhatsApp_Image_2026-07-09_at_12.05.08__2__Mdge3pqLK.jpeg?updatedAt=1783582327586"
+    },
+    {
+        "id": "ik-10",
+        "category": "राजनीतिक",
+        "title": "झलकियां 11",
+        "url": "https://ik.imagekit.io/smcdngw8m/WhatsApp_Image_2026-07-09_at_12.05.09__1__LkxhFcAkr.jpeg?updatedAt=1783582345248"
+    },
+    {
+        "id": "ik-11",
+        "category": "जनसभाएं",
+        "title": "झलकियां 12",
+        "url": "https://ik.imagekit.io/smcdngw8m/WhatsApp_Image_2026-07-09_at_12.05.10__1__OHxSigLZs.jpeg?updatedAt=1783582394383"
+    },
+    {
+        "id": "ik-12",
+        "category": "किसान",
+        "title": "झलकियां 13",
+        "url": "https://ik.imagekit.io/smcdngw8m/WhatsApp_Image_2026-07-09_at_12.05.10__2__cHACYevy0.jpeg?updatedAt=1783582411333"
+    },
+    {
+        "id": "ik-13",
+        "category": "महिला",
+        "title": "झलकियां 14",
+        "url": "https://ik.imagekit.io/smcdngw8m/WhatsApp_Image_2026-07-09_at_12.05.10_NSyKGY1nw.jpeg?updatedAt=1783582437805"
+    },
+    {
+        "id": "ik-14",
+        "category": "सामाजिक कार्य",
+        "title": "झलकियां 15",
+        "url": "https://ik.imagekit.io/smcdngw8m/WhatsApp_Image_2026-07-09_at_12.05.11__1__4qPZh0VGT.jpeg?updatedAt=1783582460386"
+    },
+    {
+        "id": "ik-15",
+        "category": "राजनीतिक",
+        "title": "झलकियां 16",
+        "url": "https://ik.imagekit.io/smcdngw8m/WhatsApp_Image_2026-07-09_at_12.05.11__2__apaCYqc0V.jpeg?updatedAt=1783582484838"
+    },
+    {
+        "id": "ik-16",
+        "category": "जनसभाएं",
+        "title": "झलकियां 17",
+        "url": "https://ik.imagekit.io/smcdngw8m/WhatsApp_Image_2026-07-09_at_12.05.11_pks5KeYie.jpeg?updatedAt=1783582504444"
+    },
+    {
+        "id": "ik-17",
+        "category": "किसान",
+        "title": "झलकियां 18",
+        "url": "https://ik.imagekit.io/smcdngw8m/WhatsApp_Image_2026-07-09_at_12.05.12__1__lxD5IaX3D.jpeg?updatedAt=1783582527001"
+    },
+    {
+        "id": "ik-18",
+        "category": "महिला",
+        "title": "झलकियां 19",
+        "url": "https://ik.imagekit.io/smcdngw8m/WhatsApp_Image_2026-07-09_at_12.05.12__2__UB2xPRDBH.jpeg?updatedAt=1783582564264"
+    },
+    {
+        "id": "ik-19",
+        "category": "सामाजिक कार्य",
+        "title": "झलकियां 20",
+        "url": "https://ik.imagekit.io/smcdngw8m/WhatsApp_Image_2026-07-09_at_12.05.12_2Eya8dsr8.jpeg?updatedAt=1783582607377"
+    },
+    {
+        "id": "ik-20",
+        "category": "राजनीतिक",
+        "title": "झलकियां 21",
+        "url": "https://ik.imagekit.io/smcdngw8m/WhatsApp_Image_2026-07-09_at_12.05.13__1__gsZL8lWnq.jpeg?updatedAt=1783582620424"
+    },
+    {
+        "id": "ik-21",
+        "category": "जनसभाएं",
+        "title": "झलकियां 22",
+        "url": "https://ik.imagekit.io/smcdngw8m/WhatsApp_Image_2026-07-09_at_12.05.13__2__bR8ORLqWS.jpeg?updatedAt=1783582635472"
+    },
+    {
+        "id": "ik-22",
+        "category": "किसान",
+        "title": "झलकियां 23",
+        "url": "https://ik.imagekit.io/smcdngw8m/WhatsApp_Image_2026-07-09_at_12.05.13_tD5BwcI0e.jpeg?updatedAt=1783582659642"
+    },
+    {
+        "id": "ik-23",
+        "category": "महिला",
+        "title": "झलकियां 24",
+        "url": "https://ik.imagekit.io/smcdngw8m/WhatsApp_Image_2026-07-09_at_12.05.14__1__KojBbUOR5.jpeg?updatedAt=1783582680130"
+    },
+    {
+        "id": "ik-24",
+        "category": "सामाजिक कार्य",
+        "title": "झलकियां 25",
+        "url": "https://ik.imagekit.io/smcdngw8m/WhatsApp_Image_2026-07-09_at_12.05.14__2__e2JikwyPi.jpeg?updatedAt=1783582700714"
+    },
+    {
+        "id": "ik-25",
+        "category": "राजनीतिक",
+        "title": "झलकियां 26",
+        "url": "https://ik.imagekit.io/smcdngw8m/WhatsApp_Image_2026-07-09_at_12.05.14_HiRuP7XLW.jpeg?updatedAt=1783582729379"
+    },
+    {
+        "id": "ik-26",
+        "category": "जनसभाएं",
+        "title": "झलकियां 27",
+        "url": "https://ik.imagekit.io/smcdngw8m/WhatsApp_Image_2026-07-09_at_12.05.15__1__mwABwJry-.jpeg?updatedAt=1783582739948"
+    },
+    {
+        "id": "ik-27",
+        "category": "किसान",
+        "title": "झलकियां 28",
+        "url": "https://ik.imagekit.io/smcdngw8m/WhatsApp_Image_2026-07-09_at_12.05.15__2__JPC2F2rqo.jpeg?updatedAt=1783582755006"
+    },
+    {
+        "id": "ik-28",
+        "category": "महिला",
+        "title": "झलकियां 29",
+        "url": "https://ik.imagekit.io/smcdngw8m/WhatsApp_Image_2026-07-09_at_12.05.15_tvaFOvPAi.jpeg?updatedAt=1783582774300"
+    },
+    {
+        "id": "ik-29",
+        "category": "सामाजिक कार्य",
+        "title": "झलकियां 30",
+        "url": "https://ik.imagekit.io/smcdngw8m/WhatsApp_Image_2026-07-09_at_12.05.16__1__cl2fVzgvI.jpeg?updatedAt=1783582787140"
+    },
+    {
+        "id": "ik-30",
+        "category": "राजनीतिक",
+        "title": "झलकियां 31",
+        "url": "https://ik.imagekit.io/smcdngw8m/WhatsApp_Image_2026-07-09_at_12.05.16_rARCsjjai.jpeg?updatedAt=1783582800468"
+    },
+    {
+        "id": "ik-31",
+        "category": "जनसभाएं",
+        "title": "झलकियां 32",
+        "url": "https://ik.imagekit.io/smcdngw8m/WhatsApp_Image_2026-07-09_at_12.05.17__1__tqtP0AbxB.jpeg?updatedAt=1783582813491"
+    },
+    {
+        "id": "ik-32",
+        "category": "किसान",
+        "title": "झलकियां 33",
+        "url": "https://ik.imagekit.io/smcdngw8m/WhatsApp_Image_2026-07-09_at_12.05.17__2__ZJdF_6VA_.jpeg?updatedAt=1783582831374"
+    },
+    {
+        "id": "ik-33",
+        "category": "महिला",
+        "title": "झलकियां 34",
+        "url": "https://ik.imagekit.io/smcdngw8m/WhatsApp_Image_2026-07-09_at_12.05.17_6wADXCaxY.jpeg?updatedAt=1783582845942"
+    },
+    {
+        "id": "ik-34",
+        "category": "सामाजिक कार्य",
+        "title": "झलकियां 35",
+        "url": "https://ik.imagekit.io/smcdngw8m/WhatsApp_Image_2026-07-09_at_12.05.18__1__KfDe9Ijre.jpeg?updatedAt=1783582856201"
+    },
+    {
+        "id": "ik-35",
+        "category": "राजनीतिक",
+        "title": "झलकियां 36",
+        "url": "https://ik.imagekit.io/smcdngw8m/WhatsApp_Image_2026-07-09_at_12.05.18_HUpNsfukq.jpeg?updatedAt=1783582866305"
+    },
+    {
+        "id": "ik-36",
+        "category": "जनसभाएं",
+        "title": "झलकियां 37",
+        "url": "https://ik.imagekit.io/smcdngw8m/WhatsApp_Image_2026-07-09_at_12.05.19__1__u-S9SFeST.jpeg?updatedAt=1783582883538"
+    },
+    {
+        "id": "ik-37",
+        "category": "किसान",
+        "title": "झलकियां 38",
+        "url": "https://ik.imagekit.io/smcdngw8m/WhatsApp_Image_2026-07-09_at_12.05.19__2__0KqyhnYxx.jpeg?updatedAt=1783582893092"
+    },
+    {
+        "id": "ik-38",
+        "category": "महिला",
+        "title": "झलकियां 39",
+        "url": "https://ik.imagekit.io/smcdngw8m/WhatsApp_Image_2026-07-09_at_12.05.19_O3OePWHUE.jpeg?updatedAt=1783582902097"
+    },
+    {
+        "id": "ik-39",
+        "category": "सामाजिक कार्य",
+        "title": "झलकियां 40",
+        "url": "https://ik.imagekit.io/smcdngw8m/WhatsApp_Image_2026-07-09_at_12.05.20__1__SENXV8cqv.jpeg?updatedAt=1783582916651"
+    },
+    {
+        "id": "ik-40",
+        "category": "राजनीतिक",
+        "title": "झलकियां 41",
+        "url": "https://ik.imagekit.io/smcdngw8m/WhatsApp_Image_2026-07-09_at_12.05.20__2__G_jBuX8eS.jpeg?updatedAt=1783582932385"
+    },
+    {
+        "id": "ik-41",
+        "category": "जनसभाएं",
+        "title": "झलकियां 42",
+        "url": "https://ik.imagekit.io/smcdngw8m/WhatsApp_Image_2026-07-09_at_12.05.20_6-FqEsa_6.jpeg?updatedAt=1783582956789"
+    },
+    {
+        "id": "ik-42",
+        "category": "किसान",
+        "title": "झलकियां 43",
+        "url": "https://ik.imagekit.io/smcdngw8m/WhatsApp_Image_2026-07-09_at_12.05.21__1__oR0cCZ7Ag.jpeg?updatedAt=1783582973976"
+    },
+    {
+        "id": "ik-43",
+        "category": "महिला",
+        "title": "झलकियां 44",
+        "url": "https://ik.imagekit.io/smcdngw8m/WhatsApp_Image_2026-07-09_at_12.05.21__2__r3P-7zpKR.jpeg?updatedAt=1783582981019"
+    }
+],
     videoHeading: "वीडियो गैलरी",
     videos: [
       { title: "जनसंपर्क अभियान — छावनी विधानसभा", embedUrl: "" },
