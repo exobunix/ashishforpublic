@@ -14,10 +14,27 @@ async function main() {
   try {
     await client.connect();
     console.log("Connected successfully to server");
-    const db = client.db("ashishforpublic");
-    const collection = db.collection("content");
-    const docs = await collection.find({}).toArray();
-    console.log("Documents:", JSON.stringify(docs, null, 2));
+    
+    const dbNames = ["ashishforpublic", "test", "ashish", "admin", "local"];
+    for (const name of dbNames) {
+      console.log(`--- Checking database: ${name} ---`);
+      const db = client.db(name);
+      try {
+        const collections = await db.listCollections().toArray();
+        console.log(`Collections in ${name}:`, collections.map(c => c.name));
+        for (const collInfo of collections) {
+          const coll = db.collection(collInfo.name);
+          const count = await coll.countDocuments();
+          console.log(`  Collection ${collInfo.name} has ${count} documents`);
+          if (count > 0) {
+            const docs = await coll.find({}).limit(5).toArray();
+            console.log(`  Sample docs in ${collInfo.name}:`, JSON.stringify(docs, null, 2));
+          }
+        }
+      } catch (err) {
+        console.error(`Failed to list collections for ${name}:`, err.message);
+      }
+    }
   } catch (err) {
     console.error(err);
   } finally {
