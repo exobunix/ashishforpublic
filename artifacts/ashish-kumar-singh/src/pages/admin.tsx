@@ -251,14 +251,44 @@ const F = ({ label, value, onChange, multiline = false, type = 'text' }: {
   </div>
 );
 
-const SaveBtn = ({ onClick }: { onClick: () => void }) => (
+const SaveBtn = ({ onClick, saving = false }: { onClick: () => void; saving?: boolean }) => (
   <button
     onClick={onClick}
-    className="mt-4 px-6 py-2 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-lg transition-colors shadow"
+    disabled={saving}
+    className="mt-4 px-6 py-2 bg-orange-500 hover:bg-orange-600 disabled:bg-orange-300 text-white font-semibold rounded-lg transition-colors shadow flex items-center gap-2"
   >
-    ✓ सहेजें
+    {saving ? (
+      <>
+        <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+        सहेज रहा है...
+      </>
+    ) : (
+      '✓ सहेजें'
+    )}
   </button>
 );
+
+function useAsyncSave(onSave: () => Promise<void>) {
+  const [saving, setSaving] = useState(false);
+  const { toast } = useToast();
+  const save = async () => {
+    setSaving(true);
+    try {
+      await onSave();
+      toast({ title: "✓ सहेजा गया", description: "डेटाबेस में सुरक्षित कर दिया गया है।" });
+    } catch (err) {
+      console.error(err);
+      toast({
+        variant: "destructive",
+        title: "⚠️ सहेजने में विफल",
+        description: "डेटाबेस से संपर्क नहीं हो सका। कृपया इंटरनेट/IP whitelist जांचें।"
+      });
+    } finally {
+      setSaving(false);
+    }
+  };
+  return { saving, save };
+}
 
 // ─── Generic array editor ─────────────────────────────────────────────────────
 
@@ -400,13 +430,19 @@ function StringListEditor({ items, onChange, title, placeholder }: {
 
 // ─── Section form components ──────────────────────────────────────────────────
 
-function GeneralSection() {
+function GeneralSection({ setDirty }: { setDirty: (d: boolean) => void }) {
   const { content, update } = useSite();
-  const { toast } = useToast();
   const [form, setForm] = useState({ logoUrl: '', ...content.general });
   useEffect(() => { setForm({ logoUrl: '', ...content.general }); }, [content.general]);
   const set = (k: keyof typeof form) => (v: string) => setForm(p => ({ ...p, [k]: v }));
-  const save = () => { update({ general: form }); toast({ title: "✓ सहेजा गया" }); };
+  const { saving, save } = useAsyncSave(() => update({ general: form }));
+
+  const isDirty = JSON.stringify(form) !== JSON.stringify({ logoUrl: '', ...content.general });
+  useEffect(() => {
+    setDirty(isDirty);
+    return () => setDirty(false);
+  }, [isDirty, setDirty]);
+
   return (
     <div>
       <h2 className="text-xl font-bold mb-6 text-gray-800">⚙️ सामान्य सेटिंग्स</h2>
@@ -414,17 +450,23 @@ function GeneralSection() {
       <F label="साइट का नाम (हेडर में दिखेगा)" value={form.siteName} onChange={set('siteName')} />
       <F label="मुख्य नारा / Tagline" value={form.tagline} onChange={set('tagline')} />
       <F label="नेविगेशन CTA बटन लेबल" value={form.navCtaLabel} onChange={set('navCtaLabel')} />
-      <SaveBtn onClick={save} />
+      <SaveBtn onClick={save} saving={saving} />
     </div>
   );
 }
 
-function NavigationSection() {
+function NavigationSection({ setDirty }: { setDirty: (d: boolean) => void }) {
   const { content, update } = useSite();
-  const { toast } = useToast();
   const [links, setLinks] = useState<NavLink[]>(content.nav.links.map(l => ({ ...l })));
   useEffect(() => { setLinks(content.nav.links.map(l => ({ ...l }))); }, [content.nav.links]);
-  const save = () => { update({ nav: { links } }); toast({ title: "✓ सहेजा गया" }); };
+  const { saving, save } = useAsyncSave(() => update({ nav: { links } }));
+
+  const isDirty = JSON.stringify(links) !== JSON.stringify(content.nav.links);
+  useEffect(() => {
+    setDirty(isDirty);
+    return () => setDirty(false);
+  }, [isDirty, setDirty]);
+
   return (
     <div>
       <h2 className="text-xl font-bold mb-6 text-gray-800">📋 नेविगेशन मेनू</h2>
@@ -439,17 +481,23 @@ function NavigationSection() {
         newItem={{ name: '', path: '/' }}
         title="नेविगेशन लिंक"
       />
-      <SaveBtn onClick={save} />
+      <SaveBtn onClick={save} saving={saving} />
     </div>
   );
 }
 
-function WhatsAppSection() {
+function WhatsAppSection({ setDirty }: { setDirty: (d: boolean) => void }) {
   const { content, update } = useSite();
-  const { toast } = useToast();
   const [form, setForm] = useState({ number: content.whatsapp.number, enabled: content.whatsapp.enabled });
   useEffect(() => { setForm({ number: content.whatsapp.number, enabled: content.whatsapp.enabled }); }, [content.whatsapp]);
-  const save = () => { update({ whatsapp: form }); toast({ title: "✓ सहेजा गया" }); };
+  const { saving, save } = useAsyncSave(() => update({ whatsapp: form }));
+
+  const isDirty = JSON.stringify(form) !== JSON.stringify({ number: content.whatsapp.number, enabled: content.whatsapp.enabled });
+  useEffect(() => {
+    setDirty(isDirty);
+    return () => setDirty(false);
+  }, [isDirty, setDirty]);
+
   return (
     <div>
       <h2 className="text-xl font-bold mb-6 text-gray-800">💬 WhatsApp सेटिंग्स</h2>
@@ -462,36 +510,48 @@ function WhatsAppSection() {
         </button>
         <span className="text-sm text-gray-500">{form.enabled ? 'चालू' : 'बंद'}</span>
       </div>
-      <SaveBtn onClick={save} />
+      <SaveBtn onClick={save} saving={saving} />
     </div>
   );
 }
 
-function SocialSection() {
+function SocialSection({ setDirty }: { setDirty: (d: boolean) => void }) {
   const { content, update } = useSite();
-  const { toast } = useToast();
   const [form, setForm] = useState({ ...content.socialMedia });
   useEffect(() => { setForm({ ...content.socialMedia }); }, [content.socialMedia]);
   const set = (k: keyof typeof form) => (v: string) => setForm(p => ({ ...p, [k]: v }));
-  const save = () => { update({ socialMedia: form }); toast({ title: "✓ सहेजा गया" }); };
+  const { saving, save } = useAsyncSave(() => update({ socialMedia: form }));
+
+  const isDirty = JSON.stringify(form) !== JSON.stringify(content.socialMedia);
+  useEffect(() => {
+    setDirty(isDirty);
+    return () => setDirty(false);
+  }, [isDirty, setDirty]);
+
   return (
     <div>
       <h2 className="text-xl font-bold mb-6 text-gray-800">📱 सोशल मीडिया लिंक</h2>
       <F label="Facebook URL" value={form.facebook} onChange={set('facebook')} />
       <F label="Twitter/X URL" value={form.twitter} onChange={set('twitter')} />
       <F label="Instagram URL" value={form.instagram} onChange={set('instagram')} />
-      <SaveBtn onClick={save} />
+      <SaveBtn onClick={save} saving={saving} />
     </div>
   );
 }
 
-function ContactInfoSection() {
+function ContactInfoSection({ setDirty }: { setDirty: (d: boolean) => void }) {
   const { content, update } = useSite();
-  const { toast } = useToast();
   const [form, setForm] = useState({ ...content.contactInfo });
   useEffect(() => { setForm({ ...content.contactInfo }); }, [content.contactInfo]);
   const set = (k: keyof typeof form) => (v: string) => setForm(p => ({ ...p, [k]: v }));
-  const save = () => { update({ contactInfo: form }); toast({ title: "✓ सहेजा गया" }); };
+  const { saving, save } = useAsyncSave(() => update({ contactInfo: form }));
+
+  const isDirty = JSON.stringify(form) !== JSON.stringify(content.contactInfo);
+  useEffect(() => {
+    setDirty(isDirty);
+    return () => setDirty(false);
+  }, [isDirty, setDirty]);
+
   return (
     <div>
       <h2 className="text-xl font-bold mb-6 text-gray-800">📞 संपर्क जानकारी</h2>
@@ -500,18 +560,24 @@ function ContactInfoSection() {
       <F label="फोन नंबर 2 (WhatsApp)" value={form.phone2} onChange={set('phone2')} />
       <F label="ईमेल पता" value={form.email} onChange={set('email')} />
       <F label="वेबसाइट" value={form.website} onChange={set('website')} />
-      <SaveBtn onClick={save} />
+      <SaveBtn onClick={save} saving={saving} />
     </div>
   );
 }
 
-function HeroSection() {
+function HeroSection({ setDirty }: { setDirty: (d: boolean) => void }) {
   const { content, update } = useSite();
-  const { toast } = useToast();
   const [form, setForm] = useState({ ...content.hero });
   useEffect(() => { setForm({ ...content.hero }); }, [content.hero]);
   const set = (k: keyof typeof form) => (v: string) => setForm(p => ({ ...p, [k]: v }));
-  const save = () => { update({ hero: form }); toast({ title: "✓ सहेजा गया" }); };
+  const { saving, save } = useAsyncSave(() => update({ hero: form }));
+
+  const isDirty = JSON.stringify(form) !== JSON.stringify(content.hero);
+  useEffect(() => {
+    setDirty(isDirty);
+    return () => setDirty(false);
+  }, [isDirty, setDirty]);
+
   return (
     <div>
       <h2 className="text-xl font-bold mb-6 text-gray-800">🏠 होम पेज — हीरो सेक्शन</h2>
@@ -530,17 +596,23 @@ function HeroSection() {
         onUploadSuccess={url => setForm(p => ({ ...p, profileImage: url }))}
         btnLabel="फोटो बदलें (Upload)"
       />
-      <SaveBtn onClick={save} />
+      <SaveBtn onClick={save} saving={saving} />
     </div>
   );
 }
 
-function StatsSection() {
+function StatsSection({ setDirty }: { setDirty: (d: boolean) => void }) {
   const { content, update } = useSite();
-  const { toast } = useToast();
   const [stats, setStats] = useState<StatItem[]>(content.stats.map(s => ({ ...s })));
   useEffect(() => { setStats(content.stats.map(s => ({ ...s }))); }, [content.stats]);
-  const save = () => { update({ stats }); toast({ title: "✓ सहेजा गया" }); };
+  const { saving, save } = useAsyncSave(() => update({ stats }));
+
+  const isDirty = JSON.stringify(stats) !== JSON.stringify(content.stats);
+  useEffect(() => {
+    setDirty(isDirty);
+    return () => setDirty(false);
+  }, [isDirty, setDirty]);
+
   return (
     <div>
       <h2 className="text-xl font-bold mb-6 text-gray-800">📊 होम पेज — आंकड़े / Statistics</h2>
@@ -566,18 +638,24 @@ function StatsSection() {
           </div>
         </div>
       ))}
-      <SaveBtn onClick={save} />
+      <SaveBtn onClick={save} saving={saving} />
     </div>
   );
 }
 
-function MissionSection() {
+function MissionSection({ setDirty }: { setDirty: (d: boolean) => void }) {
   const { content, update } = useSite();
-  const { toast } = useToast();
   const [form, setForm] = useState({ ...content.mission });
   useEffect(() => { setForm({ ...content.mission }); }, [content.mission]);
   const set = (k: keyof typeof form) => (v: string) => setForm(p => ({ ...p, [k]: v }));
-  const save = () => { update({ mission: form }); toast({ title: "✓ सहेजा गया" }); };
+  const { saving, save } = useAsyncSave(() => update({ mission: form }));
+
+  const isDirty = JSON.stringify(form) !== JSON.stringify(content.mission);
+  useEffect(() => {
+    setDirty(isDirty);
+    return () => setDirty(false);
+  }, [isDirty, setDirty]);
+
   return (
     <div>
       <h2 className="text-xl font-bold mb-6 text-gray-800">🎯 होम पेज — मिशन सेक्शन</h2>
@@ -597,17 +675,23 @@ function MissionSection() {
       </div>
       <StringListEditor items={form.coreValues} onChange={v => setForm(p => ({ ...p, coreValues: v }))}
         title="मूल मूल्य (Core Values)" placeholder="नया मूल्य..." />
-      <SaveBtn onClick={save} />
+      <SaveBtn onClick={save} saving={saving} />
     </div>
   );
 }
 
-function HomeTimelineSection() {
+function HomeTimelineSection({ setDirty }: { setDirty: (d: boolean) => void }) {
   const { content, update } = useSite();
-  const { toast } = useToast();
   const [form, setForm] = useState({ ...content.homeTimeline, items: content.homeTimeline.items.map(i => ({ ...i })) });
   useEffect(() => { setForm({ ...content.homeTimeline, items: content.homeTimeline.items.map(i => ({ ...i })) }); }, [content.homeTimeline]);
-  const save = () => { update({ homeTimeline: form }); toast({ title: "✓ सहेजा गया" }); };
+  const { saving, save } = useAsyncSave(() => update({ homeTimeline: form }));
+
+  const isDirty = JSON.stringify(form) !== JSON.stringify({ ...content.homeTimeline, items: content.homeTimeline.items });
+  useEffect(() => {
+    setDirty(isDirty);
+    return () => setDirty(false);
+  }, [isDirty, setDirty]);
+
   return (
     <div>
       <h2 className="text-xl font-bold mb-6 text-gray-800">📅 होम पेज — राजनीतिक यात्रा</h2>
@@ -625,18 +709,24 @@ function HomeTimelineSection() {
         newItem={{ year: '', title: '', role: '' }}
         title="टाइमलाइन आइटम"
       />
-      <SaveBtn onClick={save} />
+      <SaveBtn onClick={save} saving={saving} />
     </div>
   );
 }
 
-function QuoteJoinSection() {
+function QuoteJoinSection({ setDirty }: { setDirty: (d: boolean) => void }) {
   const { content, update } = useSite();
-  const { toast } = useToast();
   const [quote, setQuote] = useState(content.quoteBanner);
   const [join, setJoin] = useState({ ...content.joinSection });
   useEffect(() => { setQuote(content.quoteBanner); setJoin({ ...content.joinSection }); }, [content.quoteBanner, content.joinSection]);
-  const save = () => { update({ quoteBanner: quote, joinSection: join }); toast({ title: "✓ सहेजा गया" }); };
+  const { saving, save } = useAsyncSave(() => update({ quoteBanner: quote, joinSection: join }));
+
+  const isDirty = quote !== content.quoteBanner || JSON.stringify(join) !== JSON.stringify(content.joinSection);
+  useEffect(() => {
+    setDirty(isDirty);
+    return () => setDirty(false);
+  }, [isDirty, setDirty]);
+
   return (
     <div>
       <h2 className="text-xl font-bold mb-6 text-gray-800">💭 होम पेज — उद्धरण और जुड़ें</h2>
@@ -647,17 +737,23 @@ function QuoteJoinSection() {
         <F label="विवरण" value={join.description} onChange={v => setJoin(p => ({ ...p, description: v }))} multiline />
         <F label="बटन लेबल" value={join.ctaLabel} onChange={v => setJoin(p => ({ ...p, ctaLabel: v }))} />
       </div>
-      <SaveBtn onClick={save} />
+      <SaveBtn onClick={save} saving={saving} />
     </div>
   );
 }
 
-function AboutSection() {
+function AboutSection({ setDirty }: { setDirty: (d: boolean) => void }) {
   const { content, update } = useSite();
-  const { toast } = useToast();
   const [form, setForm] = useState({ ...content.about, timelineEvents: content.about.timelineEvents.map(e => ({ ...e })), philosophyCards: content.about.philosophyCards.map(c => ({ ...c })) });
   useEffect(() => { setForm({ ...content.about, timelineEvents: content.about.timelineEvents.map(e => ({ ...e })), philosophyCards: content.about.philosophyCards.map(c => ({ ...c })) }); }, [content.about]);
-  const save = () => { update({ about: form }); toast({ title: "✓ सहेजा गया" }); };
+  const { saving, save } = useAsyncSave(() => update({ about: form }));
+
+  const isDirty = JSON.stringify(form) !== JSON.stringify({ ...content.about, timelineEvents: content.about.timelineEvents, philosophyCards: content.about.philosophyCards });
+  useEffect(() => {
+    setDirty(isDirty);
+    return () => setDirty(false);
+  }, [isDirty, setDirty]);
+
   return (
     <div>
       <h2 className="text-xl font-bold mb-6 text-gray-800">👤 परिचय पेज</h2>
@@ -703,14 +799,13 @@ function AboutSection() {
         />
       </div>
       <F label="प्रेरणा उद्धरण (पेज के अंत में)" value={form.inspirationQuote} onChange={v => setForm(p => ({ ...p, inspirationQuote: v }))} multiline />
-      <SaveBtn onClick={save} />
+      <SaveBtn onClick={save} saving={saving} />
     </div>
   );
 }
 
-function VisionSection() {
+function VisionSection({ setDirty }: { setDirty: (d: boolean) => void }) {
   const { content, update } = useSite();
-  const { toast } = useToast();
   const [form, setForm] = useState({
     ...content.vision,
     priorities: content.vision.priorities.map(p => ({ ...p })),
@@ -721,7 +816,14 @@ function VisionSection() {
   useEffect(() => {
     setForm({ ...content.vision, priorities: content.vision.priorities.map(p => ({ ...p })), roadmap: content.vision.roadmap.map(r => ({ ...r })), achievements: [...content.vision.achievements], pledges: [...content.vision.pledges] });
   }, [content.vision]);
-  const save = () => { update({ vision: form }); toast({ title: "✓ सहेजा गया" }); };
+  const { saving, save } = useAsyncSave(() => update({ vision: form }));
+
+  const isDirty = JSON.stringify(form) !== JSON.stringify({ ...content.vision, priorities: content.vision.priorities, roadmap: content.vision.roadmap, achievements: content.vision.achievements, pledges: content.vision.pledges });
+  useEffect(() => {
+    setDirty(isDirty);
+    return () => setDirty(false);
+  }, [isDirty, setDirty]);
+
   return (
     <div>
       <h2 className="text-xl font-bold mb-6 text-gray-800">👁️ दृष्टिकोण पेज</h2>
@@ -763,14 +865,13 @@ function VisionSection() {
         <StringListEditor items={form.pledges} onChange={v => setForm(p => ({ ...p, pledges: v }))} title="संकल्प सूची" placeholder="नया संकल्प..." />
       </div>
       <F label="मिशन स्टेटमेंट" value={form.missionStatement} onChange={v => setForm(p => ({ ...p, missionStatement: v }))} multiline />
-      <SaveBtn onClick={save} />
+      <SaveBtn onClick={save} saving={saving} />
     </div>
   );
 }
 
-function MediaSection() {
+function MediaSection({ setDirty }: { setDirty: (d: boolean) => void }) {
   const { content, update } = useSite();
-  const { toast } = useToast();
   const defaultPhotos = DEFAULT_CONTENT.media.photos || [];
 
   const [form, setForm] = useState({
@@ -803,7 +904,21 @@ function MediaSection() {
     });
   }, [content.media]);
 
-  const save = () => { update({ media: form }); toast({ title: "✓ सहेजा गया" }); };
+  const { saving, save } = useAsyncSave(() => update({ media: form }));
+
+  const isDirty = JSON.stringify(form) !== JSON.stringify({
+    ...content.media,
+    categories: content.media.categories,
+    photos: content.media.photos && content.media.photos.length > 0
+      ? content.media.photos
+      : defaultPhotos,
+    videos: content.media.videos,
+    news: content.media.news
+  });
+  useEffect(() => {
+    setDirty(isDirty);
+    return () => setDirty(false);
+  }, [isDirty, setDirty]);
   return (
     <div>
       <h2 className="text-xl font-bold mb-6 text-gray-800">📸 मीडिया पेज</h2>
@@ -947,14 +1062,13 @@ function MediaSection() {
           title="समाचार / प्रेस"
         />
       </div>
-      <SaveBtn onClick={save} />
+      <SaveBtn onClick={save} saving={saving} />
     </div>
   );
 }
 
-function ContactPageSection() {
+function ContactPageSection({ setDirty }: { setDirty: (d: boolean) => void }) {
   const { content, update } = useSite();
-  const { toast } = useToast();
   const [form, setForm] = useState({
     ...content.contactPage,
     faqs: content.contactPage.faqs.map(f => ({ ...f })),
@@ -962,7 +1076,14 @@ function ContactPageSection() {
   useEffect(() => {
     setForm({ ...content.contactPage, faqs: content.contactPage.faqs.map(f => ({ ...f })) });
   }, [content.contactPage]);
-  const save = () => { update({ contactPage: form }); toast({ title: "✓ सहेजा गया" }); };
+  const { saving, save } = useAsyncSave(() => update({ contactPage: form }));
+
+  const isDirty = JSON.stringify(form) !== JSON.stringify({ ...content.contactPage, faqs: content.contactPage.faqs });
+  useEffect(() => {
+    setDirty(isDirty);
+    return () => setDirty(false);
+  }, [isDirty, setDirty]);
+
   return (
     <div>
       <h2 className="text-xl font-bold mb-6 text-gray-800">📩 संपर्क पेज</h2>
@@ -991,25 +1112,31 @@ function ContactPageSection() {
           title="FAQ प्रश्नोत्तर"
         />
       </div>
-      <SaveBtn onClick={save} />
+      <SaveBtn onClick={save} saving={saving} />
     </div>
   );
 }
 
-function FooterSection() {
+function FooterSection({ setDirty }: { setDirty: (d: boolean) => void }) {
   const { content, update } = useSite();
-  const { toast } = useToast();
   const [form, setForm] = useState({ ...content.footer });
   useEffect(() => { setForm({ ...content.footer }); }, [content.footer]);
   const set = (k: keyof typeof form) => (v: string) => setForm(p => ({ ...p, [k]: v }));
-  const save = () => { update({ footer: form }); toast({ title: "✓ सहेजा गया" }); };
+  const { saving, save } = useAsyncSave(() => update({ footer: form }));
+
+  const isDirty = JSON.stringify(form) !== JSON.stringify(content.footer);
+  useEffect(() => {
+    setDirty(isDirty);
+    return () => setDirty(false);
+  }, [isDirty, setDirty]);
+
   return (
     <div>
       <h2 className="text-xl font-bold mb-6 text-gray-800">🦶 फुटर सेक्शन</h2>
       <F label="विवरण (फुटर में)" value={form.description} onChange={set('description')} multiline />
       <F label="टैगलाइन (फुटर में)" value={form.tagline} onChange={set('tagline')} />
       <F label="कॉपीराइट टेक्स्ट" value={form.copyright} onChange={set('copyright')} />
-      <SaveBtn onClick={save} />
+      <SaveBtn onClick={save} saving={saving} />
     </div>
   );
 }
@@ -1034,23 +1161,23 @@ const SECTIONS = [
   { id: 'footer', label: 'फुटर', icon: '🦶' },
 ];
 
-function SectionContent({ section }: { section: string }) {
+function SectionContent({ section, setDirty }: { section: string; setDirty: (d: boolean) => void }) {
   switch (section) {
-    case 'general': return <GeneralSection />;
-    case 'nav': return <NavigationSection />;
-    case 'whatsapp': return <WhatsAppSection />;
-    case 'social': return <SocialSection />;
-    case 'contactinfo': return <ContactInfoSection />;
-    case 'hero': return <HeroSection />;
-    case 'stats': return <StatsSection />;
-    case 'mission': return <MissionSection />;
-    case 'hometimeline': return <HomeTimelineSection />;
-    case 'quotejoin': return <QuoteJoinSection />;
-    case 'about': return <AboutSection />;
-    case 'vision': return <VisionSection />;
-    case 'media': return <MediaSection />;
-    case 'contactpage': return <ContactPageSection />;
-    case 'footer': return <FooterSection />;
+    case 'general': return <GeneralSection setDirty={setDirty} />;
+    case 'nav': return <NavigationSection setDirty={setDirty} />;
+    case 'whatsapp': return <WhatsAppSection setDirty={setDirty} />;
+    case 'social': return <SocialSection setDirty={setDirty} />;
+    case 'contactinfo': return <ContactInfoSection setDirty={setDirty} />;
+    case 'hero': return <HeroSection setDirty={setDirty} />;
+    case 'stats': return <StatsSection setDirty={setDirty} />;
+    case 'mission': return <MissionSection setDirty={setDirty} />;
+    case 'hometimeline': return <HomeTimelineSection setDirty={setDirty} />;
+    case 'quotejoin': return <QuoteJoinSection setDirty={setDirty} />;
+    case 'about': return <AboutSection setDirty={setDirty} />;
+    case 'vision': return <VisionSection setDirty={setDirty} />;
+    case 'media': return <MediaSection setDirty={setDirty} />;
+    case 'contactpage': return <ContactPageSection setDirty={setDirty} />;
+    case 'footer': return <FooterSection setDirty={setDirty} />;
     default: return null;
   }
 }
@@ -1064,6 +1191,7 @@ export default function Admin() {
   const [pwd, setPwd] = useState('');
   const [pwdError, setPwdError] = useState(false);
   const [activeSection, setActiveSection] = useState('general');
+  const [isDirty, setIsDirty] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { reset } = useSite();
   const { toast } = useToast();
@@ -1144,7 +1272,15 @@ export default function Admin() {
           {SECTIONS.map(s => (
             <button
               key={s.id}
-              onClick={() => { setActiveSection(s.id); setSidebarOpen(false); }}
+              onClick={() => {
+                if (isDirty) {
+                  if (!confirm('आपके पास सहेजे न गए बदलाव हैं। क्या आप उन्हें छोड़ना चाहते हैं?')) {
+                    return;
+                  }
+                }
+                setActiveSection(s.id);
+                setSidebarOpen(false);
+              }}
               className={`w-full text-left px-4 py-2.5 rounded-xl text-sm font-medium transition-colors flex items-center gap-3 ${
                 activeSection === s.id
                   ? 'bg-orange-100 text-orange-700 font-semibold'
@@ -1201,7 +1337,7 @@ export default function Admin() {
         {/* Section form */}
         <main className="flex-1 overflow-y-auto p-6">
           <div className="max-w-3xl mx-auto bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
-            <SectionContent section={activeSection} />
+            <SectionContent section={activeSection} setDirty={setIsDirty} />
           </div>
         </main>
       </div>

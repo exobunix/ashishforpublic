@@ -23,8 +23,8 @@ function deepMerge<T>(base: T, override: Partial<T>): T {
 
 interface SiteContextValue {
   content: SiteContent;
-  update: (partial: DeepPartial<SiteContent>) => void;
-  reset: () => void;
+  update: (partial: DeepPartial<SiteContent>) => Promise<void>;
+  reset: () => Promise<void>;
 }
 
 const STORAGE_KEY = 'ashish_site_v2';
@@ -32,8 +32,8 @@ const API_URL = import.meta.env.VITE_API_URL || 'https://ashishforpublic.onrende
 
 const SiteContext = createContext<SiteContextValue>({
   content: DEFAULT_CONTENT,
-  update: () => {},
-  reset: () => {},
+  update: async () => {},
+  reset: async () => {},
 });
 
 export function SiteProvider({ children }: { children: React.ReactNode }) {
@@ -60,30 +60,39 @@ export function SiteProvider({ children }: { children: React.ReactNode }) {
       .catch(err => console.error('Failed to fetch content from database', err));
   }, []);
 
-  const update = useCallback((partial: DeepPartial<SiteContent>) => {
+  const update = useCallback(async (partial: DeepPartial<SiteContent>) => {
+    let nextContent: SiteContent | null = null;
     setContent(prev => {
       const next = deepMerge(prev, partial as Partial<SiteContent>);
+      nextContent = next;
       try { localStorage.setItem(STORAGE_KEY, JSON.stringify(next)); } catch { /* ignore */ }
-
-      fetch(`${API_URL}/api/content`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(next),
-      }).catch(err => console.error('Failed to sync content to database', err));
-
       return next;
     });
+
+    if (nextContent) {
+      const res = await fetch(`${API_URL}/api/content`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(nextContent),
+      });
+      if (!res.ok) {
+        throw new Error('Failed to save content to database');
+      }
+    }
   }, []);
 
-  const reset = useCallback(() => {
+  const reset = useCallback(async () => {
     try { localStorage.removeItem(STORAGE_KEY); } catch { /* ignore */ }
     setContent(DEFAULT_CONTENT);
 
-    fetch(`${API_URL}/api/content`, {
+    const res = await fetch(`${API_URL}/api/content`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(DEFAULT_CONTENT),
-    }).catch(err => console.error('Failed to reset content in database', err));
+    });
+    if (!res.ok) {
+      throw new Error('Failed to reset content in database');
+    }
   }, []);
 
   return (
