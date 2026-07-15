@@ -53,16 +53,16 @@ export default function About() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
           >
-            <Card className="max-w-5xl mx-auto shadow-2xl border-none overflow-hidden bg-white/90 backdrop-blur-md">
+            <Card className="max-w-7xl mx-auto shadow-2xl border-none overflow-hidden bg-white/90 backdrop-blur-md">
               <div className="grid grid-cols-1 md:grid-cols-3">
-                <div className="md:col-span-1 bg-secondary/30 relative min-h-[300px]">
+                <div className="md:col-span-1 bg-secondary/30 relative min-h-[300px] md:min-h-full">
                   <img
                     src={about.profileImage || profileImg}
                     alt="Ashish Kumar Singh"
                     className="absolute inset-0 w-full h-full object-cover object-top"
                   />
                 </div>
-                <CardContent className="md:col-span-2 p-8 md:p-12">
+                <CardContent className="md:col-span-2 p-5 sm:p-8 md:p-12">
                   <h2 className="text-3xl font-bold mb-6 font-heading text-foreground">व्यक्तिगत जानकारी</h2>
                   <div className="space-y-4 text-lg">
                     <div className="grid grid-cols-3 border-b pb-3">
@@ -96,12 +96,12 @@ export default function About() {
       {/* Leadership Philosophy */}
       <section className="py-16 bg-secondary/20">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
             {about.philosophyCards.map((card, i) => (
               <Card key={i} className={`glass-card hover:-translate-y-1 transition-transform border-t-4 ${
                 i === 0 ? 'border-t-primary' : i === 1 ? 'border-t-accent' : 'border-t-[#FFB703]'
               }`}>
-                <CardContent className="p-8 text-center">
+                <CardContent className="p-6 sm:p-8 text-center">
                   <div className="text-primary font-bold text-xl mb-4 font-heading">{renderFormattedText(card.title)}</div>
                   <p className="text-muted-foreground">{renderFormattedText(card.desc)}</p>
                 </CardContent>
@@ -114,14 +114,14 @@ export default function About() {
       {/* About Us Section */}
       {about.aboutUsHeading && about.aboutUsContent && (
         <section className="py-16 bg-white">
-          <div className="container mx-auto px-4 max-w-4xl">
+          <div className="container mx-auto px-4 max-w-7xl">
             <div className="text-center mb-10">
               <h2 className="text-4xl md:text-5xl font-bold font-heading text-foreground relative inline-block">
                 {renderFormattedText(about.aboutUsHeading)}
                 <span className="absolute bottom-0 left-1/4 right-1/4 h-1 bg-saffron-gradient rounded-full transform translate-y-2" />
               </h2>
             </div>
-            <Card className="border-none shadow-xl bg-orange-50/20 p-8 md:p-12 rounded-2xl border border-orange-100/55">
+            <Card className="border-none shadow-xl bg-orange-50/20 p-5 sm:p-8 md:p-12 rounded-2xl border border-orange-100/55">
               <p className="text-lg md:text-xl text-muted-foreground leading-relaxed text-center font-medium">
                 {renderFormattedText(about.aboutUsContent)}
               </p>
@@ -132,7 +132,7 @@ export default function About() {
 
       {/* Timeline Section */}
       <section className="py-24">
-        <div className="container mx-auto px-4 max-w-5xl">
+        <div className="container mx-auto px-4 max-w-7xl">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold font-heading text-foreground mb-4">जीवन यात्रा</h2>
             <p className="text-xl text-muted-foreground">शिक्षा, व्यवसाय से लेकर जनसेवा तक का सफर</p>
@@ -156,7 +156,7 @@ export default function About() {
                   >
                     <div className={`flex-1 ${isLeft ? 'md:text-right' : 'md:text-left'}`}>
                       <Card className="border-none shadow-lg hover:shadow-xl transition-shadow bg-white">
-                        <CardContent className="p-6">
+                        <CardContent className="p-5 sm:p-6">
                           <span className="inline-block px-3 py-1 rounded-full bg-primary text-white text-sm font-bold mb-3">
                             {renderFormattedText(event.year)}
                           </span>
