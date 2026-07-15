@@ -15,19 +15,19 @@ export function renderFormattedText(text: string | number | undefined | null) {
     const parts = line.split(/(\*\*[^*]+\*\*)/g);
     const renderedLine = parts.map((part, partIdx) => {
       if (part.startsWith('**') && part.endsWith('**')) {
-        return (
-          <strong key={partIdx} className="font-extrabold text-foreground">
-            {part.slice(2, -2)}
-          </strong>
+        return React.createElement(
+          'strong',
+          { key: partIdx, className: 'font-extrabold text-foreground' },
+          part.slice(2, -2)
         );
       }
       return part;
     });
-    return (
-      <React.Fragment key={lineIdx}>
-        {renderedLine}
-        {lineIdx < lines.length - 1 && <br />}
-      </React.Fragment>
+    return React.createElement(
+      React.Fragment,
+      { key: lineIdx },
+      renderedLine,
+      lineIdx < lines.length - 1 ? React.createElement('br') : null
     );
   });
 }
