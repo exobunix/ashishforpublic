@@ -17,6 +17,7 @@ import {
 import { MapPin, Phone, Mail } from 'lucide-react';
 import { FaWhatsapp } from 'react-icons/fa';
 import { useSite } from '@/context/site-context';
+import { renderFormattedText } from '@/lib/utils';
 
 const contactSchema = z.object({
   name: z.string().min(2, 'नाम कम से कम 2 अक्षरों का होना चाहिए'),
@@ -61,8 +62,8 @@ export default function Contact() {
     <div className="w-full font-hindi pb-24">
       {/* Hero */}
       <section className="bg-saffron-gradient text-white pt-32 pb-24 text-center">
-        <h1 className="text-5xl md:text-6xl font-bold font-heading mb-4">{contactPage.heroHeading}</h1>
-        <p className="text-xl md:text-2xl font-medium">"{contactPage.heroSubtitle}"</p>
+        <h1 className="text-5xl md:text-6xl font-bold font-heading mb-4">{renderFormattedText(contactPage.heroHeading)}</h1>
+        <p className="text-xl md:text-2xl font-medium">"{renderFormattedText(contactPage.heroSubtitle)}"</p>
       </section>
 
       {/* Info & Form Grid */}
@@ -83,7 +84,7 @@ export default function Contact() {
                         </div>
                         <div>
                           <p className="font-bold text-lg">कार्यालय पता</p>
-                          <p className="text-muted-foreground">{contactInfo.address}</p>
+                          <p className="text-muted-foreground">{renderFormattedText(contactInfo.address)}</p>
                         </div>
                       </div>
 
@@ -129,8 +130,8 @@ export default function Contact() {
 
                   <div className="p-6 bg-secondary/50 rounded-xl border border-border">
                     <h4 className="font-bold font-heading text-lg mb-2">कार्यालय का समय</h4>
-                    <p>{contactPage.officeHours}</p>
-                    <p className="text-muted-foreground">{contactPage.sundayHours}</p>
+                    <p>{renderFormattedText(contactPage.officeHours)}</p>
+                    <p className="text-muted-foreground">{renderFormattedText(contactPage.sundayHours)}</p>
                   </div>
                 </CardContent>
               </Card>
@@ -217,8 +218,8 @@ export default function Contact() {
       {/* Volunteer Section */}
       <section className="py-16 bg-secondary/20">
         <div className="container mx-auto px-4 max-w-2xl text-center">
-          <h2 className="text-3xl font-bold font-heading mb-4">{contactPage.volunteerHeading}</h2>
-          <p className="text-muted-foreground mb-8">{contactPage.volunteerDesc}</p>
+          <h2 className="text-3xl font-bold font-heading mb-4">{renderFormattedText(contactPage.volunteerHeading)}</h2>
+          <p className="text-muted-foreground mb-8">{renderFormattedText(contactPage.volunteerDesc)}</p>
           <Card className="shadow-xl border-none">
             <CardContent className="p-8">
               <Form {...volunteerForm}>
@@ -272,10 +273,10 @@ export default function Contact() {
                 className="border border-border rounded-xl px-4 shadow-sm data-[state=open]:border-primary data-[state=open]:shadow-md transition-all"
               >
                 <AccordionTrigger className="text-left font-bold text-lg py-4 hover:no-underline">
-                  {faq.q}
+                  {renderFormattedText(faq.q)}
                 </AccordionTrigger>
                 <AccordionContent className="text-muted-foreground pb-4 leading-relaxed text-base">
-                  {faq.a}
+                  {renderFormattedText(faq.a)}
                 </AccordionContent>
               </AccordionItem>
             ))}

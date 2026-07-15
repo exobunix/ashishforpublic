@@ -232,7 +232,10 @@ const F = ({ label, value, onChange, multiline = false, type = 'text' }: {
   multiline?: boolean; type?: string;
 }) => (
   <div className="mb-4">
-    <label className="block text-sm font-semibold text-gray-700 mb-1">{label}</label>
+    <div className="flex justify-between items-center mb-1">
+      <label className="block text-sm font-semibold text-gray-700">{label}</label>
+      <span className="text-[10px] text-orange-400/80 font-medium select-none">बोल्ड के लिए: **शब्द**</span>
+    </div>
     {multiline ? (
       <textarea
         value={value as string}

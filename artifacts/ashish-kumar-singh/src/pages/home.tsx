@@ -7,6 +7,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Play, ArrowRight, Heart, Scale, Flame, CheckCircle2 } from 'lucide-react';
 import profileImg from '@assets/आशीष_कुमार_सिंह_छावनी_विधान_सभा_कानपुर_1783515326447.png';
 import { useSite } from '@/context/site-context';
+import { renderFormattedText } from '@/lib/utils';
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 30 },
@@ -57,10 +58,10 @@ export default function Home() {
                   {hero.headline.split(' ').slice(0, -1).join(' ')}{' '}
                   <span className="text-gradient">{hero.headline.split(' ').slice(-1)[0]}</span>
                 </h1>
-                <p className="text-xl md:text-2xl text-foreground/80 font-medium">{hero.subheading}</p>
+                <p className="text-xl md:text-2xl text-foreground/80 font-medium">{renderFormattedText(hero.subheading)}</p>
                 <div className="pt-4 pb-2">
                   <p className="text-2xl font-serif italic text-primary/80 border-l-4 border-primary pl-4">
-                    "{hero.quote}"
+                    "{renderFormattedText(hero.quote)}"
                   </p>
                 </div>
               </motion.div>
@@ -103,8 +104,8 @@ export default function Home() {
                   <CheckCircle2 size={24} />
                 </div>
                 <div>
-                  <p className="font-bold text-foreground text-lg">{hero.floatingBadgeTitle}</p>
-                  <p className="text-sm text-muted-foreground">{hero.floatingBadgeSub}</p>
+                  <p className="font-bold text-foreground text-lg">{renderFormattedText(hero.floatingBadgeTitle)}</p>
+                  <p className="text-sm text-muted-foreground">{renderFormattedText(hero.floatingBadgeSub)}</p>
                 </div>
               </motion.div>
             </motion.div>
@@ -130,7 +131,7 @@ export default function Home() {
                 <p className="text-4xl md:text-5xl font-bold text-primary mb-2 font-heading">
                   <AnimatedCounter end={stat.value} suffix={stat.suffix} />
                 </p>
-                <p className="text-sm md:text-base text-gray-300 font-medium">{stat.label}</p>
+                <p className="text-sm md:text-base text-gray-300 font-medium">{renderFormattedText(stat.label)}</p>
               </motion.div>
             ))}
           </div>
@@ -147,12 +148,12 @@ export default function Home() {
             variants={staggerContainer}
             className="text-center max-w-3xl mx-auto mb-16"
           >
-            <motion.h2 variants={fadeUp} className="text-primary font-bold text-lg mb-2">{mission.sectionLabel}</motion.h2>
+            <motion.h2 variants={fadeUp} className="text-primary font-bold text-lg mb-2">{renderFormattedText(mission.sectionLabel)}</motion.h2>
             <motion.h3 variants={fadeUp} className="text-4xl md:text-5xl font-bold font-heading text-foreground mb-6">
-              {mission.heading}
+              {renderFormattedText(mission.heading)}
             </motion.h3>
             <motion.p variants={fadeUp} className="text-lg text-muted-foreground leading-relaxed">
-              {mission.description}
+              {renderFormattedText(mission.description)}
             </motion.p>
           </motion.div>
 
@@ -172,8 +173,8 @@ export default function Home() {
                       <div className="w-16 h-16 mx-auto bg-white rounded-2xl shadow-md flex items-center justify-center text-primary mb-6 rotate-3">
                         <Icon size={32} />
                       </div>
-                      <h4 className="text-2xl font-bold mb-4 font-heading">{item.title}</h4>
-                      <p className="text-muted-foreground leading-relaxed">{item.desc}</p>
+                      <h4 className="text-2xl font-bold mb-4 font-heading">{renderFormattedText(item.title)}</h4>
+                      <p className="text-muted-foreground leading-relaxed">{renderFormattedText(item.desc)}</p>
                     </CardContent>
                   </Card>
                 </motion.div>
@@ -189,7 +190,7 @@ export default function Home() {
           >
             {mission.coreValues.map((value, i) => (
               <span key={i} className="px-6 py-3 rounded-full bg-primary/10 text-primary font-bold text-lg border border-primary/20">
-                {value}
+                {renderFormattedText(value)}
               </span>
             ))}
           </motion.div>
@@ -201,8 +202,8 @@ export default function Home() {
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
             <div>
-              <h2 className="text-primary font-bold text-lg mb-2">{homeTimeline.heading}</h2>
-              <h3 className="text-4xl md:text-5xl font-bold font-heading text-foreground">{homeTimeline.subheading}</h3>
+              <h2 className="text-primary font-bold text-lg mb-2">{renderFormattedText(homeTimeline.heading)}</h2>
+              <h3 className="text-4xl md:text-5xl font-bold font-heading text-foreground">{renderFormattedText(homeTimeline.subheading)}</h3>
             </div>
             <Button variant="outline" className="rounded-full bg-white" onClick={() => setLocation('/about')}>
               {homeTimeline.ctaLabel} <ArrowRight className="ml-2 w-4 h-4" />
@@ -225,8 +226,8 @@ export default function Home() {
                 <div className="md:hidden absolute top-2 left-0 w-4 h-4 rounded-full bg-primary ring-4 ring-primary/20" />
                 <div className="glass-card p-6 rounded-2xl relative z-10 md:mt-4 bg-white/60">
                   <span className="inline-block px-3 py-1 rounded bg-foreground text-white text-sm font-bold mb-3">{item.year}</span>
-                  <h4 className="text-xl font-bold mb-2 font-heading">{item.title}</h4>
-                  <p className="text-muted-foreground">{item.role}</p>
+                  <h4 className="text-xl font-bold mb-2 font-heading">{renderFormattedText(item.title)}</h4>
+                  <p className="text-muted-foreground">{renderFormattedText(item.role)}</p>
                 </div>
               </motion.div>
             ))}
@@ -248,7 +249,7 @@ export default function Home() {
               <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
             </svg>
             <p className="text-3xl md:text-5xl font-bold leading-tight font-hindi mb-8">
-              "{quoteBanner}"
+              "{renderFormattedText(quoteBanner)}"
             </p>
           </motion.div>
         </div>
@@ -261,8 +262,8 @@ export default function Home() {
             <div className="absolute top-0 right-0 w-64 h-64 bg-primary/20 rounded-full blur-3xl" />
             <div className="absolute bottom-0 left-0 w-64 h-64 bg-accent/20 rounded-full blur-3xl" />
             <div className="relative z-10 text-center">
-              <h2 className="text-4xl md:text-5xl font-bold font-heading mb-6">{joinSection.heading}</h2>
-              <p className="text-xl text-gray-300 mb-10 max-w-2xl mx-auto">{joinSection.description}</p>
+              <h2 className="text-4xl md:text-5xl font-bold font-heading mb-6">{renderFormattedText(joinSection.heading)}</h2>
+              <p className="text-xl text-gray-300 mb-10 max-w-2xl mx-auto">{renderFormattedText(joinSection.description)}</p>
               <div className="flex flex-col sm:flex-row gap-4 max-w-xl mx-auto">
                 <input type="text" placeholder="आपका नाम"
                   className="flex-1 px-6 py-4 rounded-full bg-white/10 border border-white/20 focus:outline-none focus:border-primary text-white" />

@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import profileImg from '@assets/आशीष_कुमार_सिंह_छावनी_विधान_सभा_कानपुर_1783515326447.png';
 import { useSite } from '@/context/site-context';
+import { renderFormattedText } from '@/lib/utils';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
@@ -39,7 +40,7 @@ export default function About() {
             transition={{ delay: 0.2 }}
             className="text-xl md:text-2xl font-medium"
           >
-            {about.heroSubtitle}
+            {renderFormattedText(about.heroSubtitle)}
           </motion.p>
         </div>
       </section>
@@ -66,23 +67,23 @@ export default function About() {
                   <div className="space-y-4 text-lg">
                     <div className="grid grid-cols-3 border-b pb-3">
                       <span className="font-bold text-muted-foreground">नाम:</span>
-                      <span className="col-span-2 font-medium">{about.personalName}</span>
+                      <span className="col-span-2 font-medium">{renderFormattedText(about.personalName)}</span>
                     </div>
                     <div className="grid grid-cols-3 border-b pb-3">
                       <span className="font-bold text-muted-foreground">पिता:</span>
-                      <span className="col-span-2 font-medium">{about.personalFather}</span>
+                      <span className="col-span-2 font-medium">{renderFormattedText(about.personalFather)}</span>
                     </div>
                     <div className="grid grid-cols-3 border-b pb-3">
                       <span className="font-bold text-muted-foreground">जन्म तिथि:</span>
-                      <span className="col-span-2 font-medium">{about.personalBirth}</span>
+                      <span className="col-span-2 font-medium">{renderFormattedText(about.personalBirth)}</span>
                     </div>
                     <div className="grid grid-cols-3 border-b pb-3">
                       <span className="font-bold text-muted-foreground">शिक्षा:</span>
-                      <span className="col-span-2 font-medium">{about.personalEducation}</span>
+                      <span className="col-span-2 font-medium">{renderFormattedText(about.personalEducation)}</span>
                     </div>
                     <div className="grid grid-cols-3 pt-1">
                       <span className="font-bold text-muted-foreground">BJP सक्रिय सदस्यता:</span>
-                      <span className="col-span-2 font-medium text-primary">{about.personalMembership}</span>
+                      <span className="col-span-2 font-medium text-primary">{renderFormattedText(about.personalMembership)}</span>
                     </div>
                   </div>
                 </CardContent>
@@ -101,8 +102,8 @@ export default function About() {
                 i === 0 ? 'border-t-primary' : i === 1 ? 'border-t-accent' : 'border-t-[#FFB703]'
               }`}>
                 <CardContent className="p-8 text-center">
-                  <div className="text-primary font-bold text-xl mb-4 font-heading">{card.title}</div>
-                  <p className="text-muted-foreground">{card.desc}</p>
+                  <div className="text-primary font-bold text-xl mb-4 font-heading">{renderFormattedText(card.title)}</div>
+                  <p className="text-muted-foreground">{renderFormattedText(card.desc)}</p>
                 </CardContent>
               </Card>
             ))}
@@ -116,13 +117,13 @@ export default function About() {
           <div className="container mx-auto px-4 max-w-4xl">
             <div className="text-center mb-10">
               <h2 className="text-4xl md:text-5xl font-bold font-heading text-foreground relative inline-block">
-                {about.aboutUsHeading}
+                {renderFormattedText(about.aboutUsHeading)}
                 <span className="absolute bottom-0 left-1/4 right-1/4 h-1 bg-saffron-gradient rounded-full transform translate-y-2" />
               </h2>
             </div>
             <Card className="border-none shadow-xl bg-orange-50/20 p-8 md:p-12 rounded-2xl border border-orange-100/55">
-              <p className="text-lg md:text-xl text-muted-foreground leading-relaxed text-center whitespace-pre-line font-medium">
-                {about.aboutUsContent}
+              <p className="text-lg md:text-xl text-muted-foreground leading-relaxed text-center font-medium">
+                {renderFormattedText(about.aboutUsContent)}
               </p>
             </Card>
           </div>
@@ -157,10 +158,10 @@ export default function About() {
                       <Card className="border-none shadow-lg hover:shadow-xl transition-shadow bg-white">
                         <CardContent className="p-6">
                           <span className="inline-block px-3 py-1 rounded-full bg-primary text-white text-sm font-bold mb-3">
-                            {event.year}
+                            {renderFormattedText(event.year)}
                           </span>
-                          <h3 className="text-xl font-bold font-heading mb-2">{event.title}</h3>
-                          <p className="text-muted-foreground leading-relaxed">{event.desc}</p>
+                          <h3 className="text-xl font-bold font-heading mb-2">{renderFormattedText(event.title)}</h3>
+                          <p className="text-muted-foreground leading-relaxed">{renderFormattedText(event.desc)}</p>
                         </CardContent>
                       </Card>
                     </div>
@@ -184,7 +185,7 @@ export default function About() {
         <section className="py-16 bg-saffron-gradient text-white text-center">
           <div className="container mx-auto px-4 max-w-3xl">
             <p className="text-2xl md:text-3xl font-bold font-hindi italic">
-              "{about.inspirationQuote}"
+              "{renderFormattedText(about.inspirationQuote)}"
             </p>
           </div>
         </section>
