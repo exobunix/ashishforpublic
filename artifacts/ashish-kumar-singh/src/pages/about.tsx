@@ -110,6 +110,25 @@ export default function About() {
         </div>
       </section>
 
+      {/* About Us Section */}
+      {about.aboutUsHeading && about.aboutUsContent && (
+        <section className="py-16 bg-white">
+          <div className="container mx-auto px-4 max-w-4xl">
+            <div className="text-center mb-10">
+              <h2 className="text-4xl md:text-5xl font-bold font-heading text-foreground relative inline-block">
+                {about.aboutUsHeading}
+                <span className="absolute bottom-0 left-1/4 right-1/4 h-1 bg-saffron-gradient rounded-full transform translate-y-2" />
+              </h2>
+            </div>
+            <Card className="border-none shadow-xl bg-orange-50/20 p-8 md:p-12 rounded-2xl border border-orange-100/55">
+              <p className="text-lg md:text-xl text-muted-foreground leading-relaxed text-center whitespace-pre-line font-medium">
+                {about.aboutUsContent}
+              </p>
+            </Card>
+          </div>
+        </section>
+      )}
+
       {/* Timeline Section */}
       <section className="py-24">
         <div className="container mx-auto px-4 max-w-5xl">

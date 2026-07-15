@@ -78,6 +78,8 @@ export interface SiteContent {
     personalBirth: string;
     personalEducation: string;
     personalMembership: string;
+    aboutUsHeading?: string;
+    aboutUsContent?: string;
     timelineEvents: AboutTimelineEvent[];
     philosophyCards: CardItem[];
     inspirationQuote: string;
@@ -209,6 +211,8 @@ export const DEFAULT_CONTENT: SiteContent = {
     personalBirth: "26 जून 1976",
     personalEducation: "MBA (MIS), University of Iowa, USA",
     personalMembership: "200389063",
+    aboutUsHeading: "हमारे बारे में",
+    aboutUsContent: "आशीष कुमार सिंह एक अनुभवी सामाजिक-राजनीतिक कार्यकर्ता हैं जो निरंतर कानपुर की छावनी विधानसभा क्षेत्र के सर्वांगीण विकास के लिए प्रयासरत हैं। अमेरिका से उच्च शिक्षा (MBA) प्राप्त करने के उपरांत, उन्होंने मातृभूमि की सेवा को सर्वोपरि मानकर वापस लौटने का निर्णय लिया। आज वे शिक्षा, पेट्रोलियम व्यवसाय और सामाजिक कल्याण के क्षेत्रों में सक्रिय भूमिका निभाते हुए जनता की समस्याओं के त्वरित समाधान के लिए समर्पित हैं।",
     timelineEvents: [
       { year: "बाल्यकाल से", title: "राष्ट्रीय स्वयंसेवक संघ", desc: "राष्ट्रीय स्वयंसेवक संघ के स्वयंसेवक, संघ के विभिन्न प्रशिक्षण वर्गों के प्रतिभागी।" },
       { year: "शिक्षा", title: "MBA (MIS) — University of Iowa, USA", desc: "University of Iowa, USA से उच्च शिक्षा प्राप्त की।" },

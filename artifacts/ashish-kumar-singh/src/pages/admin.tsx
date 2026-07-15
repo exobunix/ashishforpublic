@@ -760,6 +760,11 @@ function AboutSection({ setDirty }: { setDirty: (d: boolean) => void }) {
       <F label="पेज शीर्षक" value={form.heroHeading} onChange={v => setForm(p => ({ ...p, heroHeading: v }))} />
       <F label="उप-शीर्षक" value={form.heroSubtitle} onChange={v => setForm(p => ({ ...p, heroSubtitle: v }))} />
       <div className="my-6 pt-4 border-t">
+        <p className="font-semibold text-gray-700 mb-3">हमारे बारे में (About Us)</p>
+        <F label="शीर्षक (Heading)" value={form.aboutUsHeading || ''} onChange={v => setForm(p => ({ ...p, aboutUsHeading: v }))} />
+        <F label="विवरण (Content)" value={form.aboutUsContent || ''} onChange={v => setForm(p => ({ ...p, aboutUsContent: v }))} multiline />
+      </div>
+      <div className="my-6 pt-4 border-t">
         <p className="font-semibold text-gray-700 mb-3">व्यक्तिगत जानकारी</p>
         <ImageUploader
           label="परिचय फोटो (About Image)"
